@@ -5,7 +5,7 @@ import pandas as pd
 import pickle 
 questions_src = load_dataset("truthful_qa","generation")["validation"]["question"]
 
-translator = models.get_model("mbart-large-50-one-to-many-mmt","English","German")
+translator = models.get_model("mbart-large-50-one-to-many-mmt","English","Romanian")
 
 questions_tgt= []
 for s in tqdm.tqdm(questions_src):
@@ -14,6 +14,6 @@ for s in tqdm.tqdm(questions_src):
 
 parallel = list(zip(questions_src,questions_tgt))
 df = pd.DataFrame(parallel)
-df.columns = ["en","de"]
-out_dir = "datasets/truthfullqa/en_de.df"
+df.columns = ["en","fr"]
+out_dir = "datasets/truthfullqa/en_ro.df"
 pickle.dump(df,open(out_dir,"wb"))

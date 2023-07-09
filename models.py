@@ -8,7 +8,8 @@ import openai
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from typing_extensions import Literal, get_args
 import torch 
-import transformers 
+import transformers
+from nltk import sent_tokenize 
 
 device = "cpu"
 # DEBUG: counting errors
@@ -32,16 +33,17 @@ ValidHFModel = [
 ]
 
 
+mbart_lang_ids = {"English":"en_XX","German":"de_DE","Russian":"ru_RU","French":"fr_XX","Romanian":"ro_RO"}
 
 
-mbart_lang_ids = {"English":"en_XX","German":"de_DE","Russian":"ru_RU"}
 
 class HFTranslator():
-    def __init__(self,model_name:ValidHFModel,src_lang,tgt_lang) -> None:
+    def __init__(self,model_name:ValidHFModel,src_lang,tgt_lang,few_shot=False) -> None:
         self.src_lang = src_lang
         self.tgt_lang = tgt_lang 
         self.model_name = model_name
         self.need_prompt = True
+        self.few_shot = few_shot
         use_fast = True 
         if model_name.startswith("flan-") or model_name.startswith("mt5"):
             if (model_name.startswith("flan-")) and (src_lang not in ["German","English","Romanian","French"]) and (tgt_lang not in ["German","English","Romanian","French"]):
@@ -64,21 +66,20 @@ class HFTranslator():
       
         self.num_params = sum(p.numel() for p in self.model.parameters())
   
-    def get_prompt(self,text,format=2):
+    def get_prompt(self,text):
         """
         Construct MT prompt format: 
         translate [src] to [tgt]: text 
         """
         src = self.src_lang
         tgt = self.tgt_lang 
-        prompt = f"[{src}]: {text} \n[{tgt}]:" if format==1 else f"translate {src} to {tgt}: {text}"
+        prompt = f"[{src}]: {text} \n[{tgt}]:"
         return prompt 
  
     
     def __call__(self,src_text:str):
         if self.need_prompt:
             prompt = self.get_prompt(src_text)
-            print(prompt)
             input_ids = self.tokenizer(prompt,return_tensors="pt")["input_ids"].to(device)
             outputs = self.model.generate(input_ids)
         else:
@@ -90,65 +91,82 @@ class HFTranslator():
         translation = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
         return translation
 
-ValidOpenAiModel =[ 
-    "gpt-4",
-    "gpt-3.5-turbo",
-    "text-davinci-001",
-    "text-davinci-002",
-    "text-davinci-003"
-]
-
+ValidOpenAiModel ={
+    "gpt-3.5-turbo":"175B",
+    "text-davinci-001":"175B",
+    "text-davinci-002":"175B",
+    "text-davinci-003":"175B",
+    "text-curie-001":"6.7B",
+    "text-babbage-001":"175B",
+    "text-ada-001":"350M",
+    "davinci":"175B",
+    "curie":"6.7B",
+    "babbage":"1.3B",
+    "ada":"350M"
+}
+few_shot_example = "[English]: I love you.\n[German]: Ich liebe dich."
 class OpenAiTranslator():
-    def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang) -> None:
-        openai.api_key = "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"
+    def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot=True) -> None:
+        openai.api_key = "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"
         self.model_name = model_name
         self.src_lang = src_lang 
-        self.tgt_lang = tgt_lang 
-    def get_prompt(self,text):
+        self.tgt_lang = tgt_lang
+        self.num_params = ValidOpenAiModel[self.model_name]
+        self.few_shot = few_shot # determine if few-shot-prmopt is needed. 
+    def get_prompt(self,src_text):
         """
         Construct MT prompt format: 
         translate [src] to [tgt]: text 
         """
-        prompt = f"translate {self.src_lang} to {self.tgt_lang}: \"{text}\""
-        return prompt 
+        prompt = f"translate {self.src_lang} to {self.tgt_lang}: \"{src_text}\""
+        if self.few_shot: 
+            prompt = few_shot_example + f"\n[{self.src_lang}]:{src_text}\n[{self.tgt_lang}]:"
+        return prompt
     def extract_ans(self,response):
-        reg_format_1 = r"translates to \"(.+)\" in"
-        reg_format_2 = r"\"(.+)\" is the translation of"
-        reg_format_3 = r"I am sorry .+ offensive language"
-        reg_format_4 = r"^translation: \"(.+)\"$"
-        reg_formate_5 = r"^\"(.+)\"$"
-        if re.search(reg_format_1,response):
-            translation = re.search(reg_format_1,response).group(1)
-        elif re.search(reg_format_2,response):
-            translation = re.search(reg_format_2,response).group(1)
-        elif re.search(reg_format_3,response):
-            return None
-        elif re.search(reg_format_4,response):
-            translation = re.search(reg_format_4,response).group(1)
-        elif re.search(reg_formate_5,response):
-            translation = re.search(reg_formate_5).group(1)
+        translation = re.sub(r"\n","",response)
+        if self.few_shot: 
+            try:
+                translation = sent_tokenize(response)[0] 
+            except: 
+                pass 
         return translation
-    def _call_api(self,text,reference=None):
+    def _call_api(self,text):
         prompt = self.get_prompt(text)
-        response = openai.ChatCompletion.create(
-                model=self.model_name,
-                messages=[
-                    {"role": "user", "content": prompt},
-                ],
-                temperature=0, 
-            )['choices'][0]['message']['content']
+        if self.model_name.startswith("gpt"):
+            try:
+                response = openai.ChatCompletion.create(
+                        model=self.model_name,
+                        messages=[
+                            {"role": "user", "content": prompt},
+                        ],
+                        temperature=0, 
+                    )['choices'][0]['message']['content']
+            except:
+                response = ""
+        else:
+            completions = openai.Completion.create(
+            engine = self.model_name,  # Determines the quality, speed, and cost.
+            temperature = 0.5,            # Level of creativity in the response
+            prompt=prompt,           # What the user typed in
+            max_tokens=50,             # Maximum tokens in the prompt AND response
+            n=1,                        # The number of completions to generate
+            stop=None,                  # An optional setting to control response generation
+        )
+            response = completions.choices[0].text
         return response
         
 
 
         
-    def __call__(self,text,reference=None):
+    def __call__(self,text):
         response = self._call_api(text)
+        ans = self.extract_ans(response)
+        return ans
   
 def get_model(model_name,src_lang,tgt_lang):
     if model_name in ValidHFModel:
         model = HFTranslator(model_name,src_lang,tgt_lang)
-    elif model_name in ValidOpenAiModel:
+    elif model_name in ValidOpenAiModel.keys():
         model = OpenAiTranslator(model_name,src_lang,tgt_lang)
     else:
         raise ValueError("please enter a valid model name!")
@@ -159,6 +177,6 @@ def get_model(model_name,src_lang,tgt_lang):
 
 
 if __name__ == "__main__":
-    text = "I can see you."
-    translator = HFTranslator("flan-t5-base","English","Romanian")
+    text = "I don't speak German"
+    translator = OpenAiTranslator("text-curie-001","English","German",few_shot=True)
     print(translator(text))
