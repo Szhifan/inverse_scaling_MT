@@ -1,0 +1,13 @@
+[2023-07-11 00:35:04] COMMAND: main.py --model-name ada --log-file ./results/openai_models/thruthfullqa_de_en.txt --dataset ./datasets/truthfullqa/en_de.df --few-shot True --lang-pair de-en
+[2023-07-11 00:35:04] Arguments: {'model_name': 'ada', 'dataset': './datasets/truthfullqa/en_de.df', 'log_file': './results/openai_models/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en'}
+[2023-07-11 00:35:04] start experiment...
+[2023-07-11 00:35:04] language pair: German-English
+[2023-07-11 00:35:04] model parameters: 350M
+[2023-07-11 00:35:21] COMMAND: main.py --model-name ada --log-file ./results/openai_models/thruthfullqa_de_en.txt --dataset ./datasets/truthfullqa/en_de.df --few-shot True --lang-pair de-en
+[2023-07-11 00:35:21] Arguments: {'model_name': 'ada', 'dataset': './datasets/truthfullqa/en_de.df', 'log_file': './results/openai_models/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en'}
+[2023-07-11 00:35:21] start experiment...
+[2023-07-11 00:35:21] language pair: German-English
+[2023-07-11 00:35:21] model parameters: 350M
+bleu score:
+BLEU = 7.06, 20.8/12.2/8.4/6.4 (BP=0.653, ratio=0.701, hyp_len=6097, ref_len=8692)
+[2023-07-11 00:42:21] ====================

@@ -4,13 +4,15 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, AutoConfig  # type
 from transformers import AutoModelForSeq2SeqLM
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 import re
+import load_data
 import openai 
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from typing_extensions import Literal, get_args
 import torch 
 import transformers
 from nltk import sent_tokenize 
-
+from utils import id2lang,lang2id
+import random 
 device = "cpu"
 # DEBUG: counting errors
 error_count = 0
@@ -104,7 +106,6 @@ ValidOpenAiModel ={
     "babbage":"1.3B",
     "ada":"350M"
 }
-few_shot_example = "[English]: I love you.\n[German]: Ich liebe dich."
 class OpenAiTranslator():
     def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot=True) -> None:
         openai.api_key = "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"
@@ -120,15 +121,28 @@ class OpenAiTranslator():
         """
         prompt = f"translate {self.src_lang} to {self.tgt_lang}: \"{src_text}\""
         if self.few_shot: 
-            prompt = few_shot_example + f"\n[{self.src_lang}]:{src_text}\n[{self.tgt_lang}]:"
+            prompt += self.construct_few_shot_examples() + f"\n[{self.src_lang}]:{src_text}\n[{self.tgt_lang}]:"
         return prompt
+    def construct_few_shot_examples(self):
+        example_pair = {"en":"I don't know","de":"Ich weiß nicht.","fr":"Je ne sais pas.","ro":"Nu știu."}
+        src_example = example_pair[lang2id[self.src_lang]]
+        tgt_example = example_pair[lang2id[self.tgt_lang]]
+        context = f"[{self.src_lang}]:{src_example}\n[{self.tgt_lang}]:{tgt_example}"
+
+            
+        return context
+
     def extract_ans(self,response):
         translation = re.sub(r"\n","",response)
+     
         if self.few_shot: 
             try:
-                translation = sent_tokenize(response)[0] 
+                translation = sent_tokenize(translation)[0] 
+                if re.search(r"^(.+?)\[.+?\]",translation):
+                    translation = re.search(r"^(.+?)\[.+?\]",translation).group(1)
             except: 
                 pass 
+        translation = re.sub(r"\n","",translation)
         return translation
     def _call_api(self,text):
         prompt = self.get_prompt(text)
@@ -161,6 +175,7 @@ class OpenAiTranslator():
     def __call__(self,text):
         response = self._call_api(text)
         ans = self.extract_ans(response)
+     
         return ans
   
 def get_model(model_name,src_lang,tgt_lang):
@@ -177,6 +192,7 @@ def get_model(model_name,src_lang,tgt_lang):
 
 
 if __name__ == "__main__":
-    text = "I don't speak German"
-    translator = OpenAiTranslator("text-curie-001","English","German",few_shot=True)
+    text = "Was ist die Hauptstadt von Finland?"
+    translator = OpenAiTranslator("text-babbage-001","German","English",few_shot=False)
+
     print(translator(text))

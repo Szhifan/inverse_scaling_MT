@@ -1,7 +1,8 @@
 import logging 
 import os
 import sys 
-
+id2lang = {"en":"English","ro":"Romanian","fr":"French","de":"German"}
+lang2id = {kp[1]:kp[0] for kp in id2lang.items()}
 def init_logging(args):
     handlers = [logging.StreamHandler()]
     if hasattr(args, 'log_file') and args.log_file is not None:

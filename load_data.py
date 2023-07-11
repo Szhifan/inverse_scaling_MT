@@ -7,8 +7,8 @@ import pickle
 class Parallel_dataset:
     def __init__(self,dir:str) -> None:
         #dir is a dataframe file. 
-        df = pickle.load(open(dir,"rb"))
-        self.data = Dataset.from_pandas(df)
+        self.df = pickle.load(open(dir,"rb"))
+        self.data = Dataset.from_pandas(self.df)
     def __len__(self):
         return len(self.data)
     def __getitem__(self,index):

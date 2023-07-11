@@ -1,4 +1,6 @@
-dir = "datasets/truthfullqa/en_de_output/text-babbage-001.txt"
-list = [s for s in open(dir,"r").readlines() if s!="\n"]
-print(list)
-
+import re
+lang_pair = "de_en"
+model = "nmslgpt"
+dataset = "datasets/truthfullqa/en_de.df"
+translation_output_dir = re.sub(r"[a-z]{2}_[a-z]{2}\.df",f"{lang_pair}_output",dataset)+f"/{model}.txt"
+print(translation_output_dir)
