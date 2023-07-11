@@ -10,7 +10,7 @@ class Parallel_dataset:
         self.df = pickle.load(open(dir,"rb"))
         self.data = Dataset.from_pandas(self.df)
     def __len__(self):
-        return len(self.data)
+        return len(list(self.data))
     def __getitem__(self,index):
         return self.data[index]
 

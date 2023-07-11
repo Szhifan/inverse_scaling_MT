@@ -35,14 +35,20 @@ def main(args):
     data_set = Parallel_dataset(args.dataset)
     translation_output_dir = re.sub(r"[a-z]{2}_[a-z]{2}\.df",f"{args.lang_pair}_output",args.dataset)+f"/{model.model_name}.txt"
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
-
+    question_mark_acc = 0 
+    lang_acc = 0
     f = open(translation_output_dir,"a")
     for pair in tqdm.tqdm(data_set):
         data = {"src":pair[src_id],"mt":model(pair[src_id]),"ref":pair[tgt_id]}
+        if data["mt"].endswit("?"):
+            question_mark_acc += 1 
         f.write(data["mt"]+"\n")
     f.close()
+    question_mark_acc = question_mark_acc / len(data_set) 
     tgt_sents = list(data_set.df[tgt_id]) 
     ref_dir = "ref.txt"
+
+
     with open(ref_dir,"a") as f:
         for sent in tgt_sents:
             f.write(sent)
