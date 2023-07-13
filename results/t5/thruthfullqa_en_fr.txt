@@ -1,0 +1,22 @@
+[2023-07-13 11:56:22] COMMAND: main.py --model-name t5-base --log-file ./results/t5/thruthfullqa_en_fr.txt --dataset ./datasets/truthfullqa/en_fr.df --lang-pair en-fr
+[2023-07-13 11:56:22] Arguments: {'model_name': 't5-base', 'dataset': './datasets/truthfullqa/en_fr.df', 'log_file': './results/t5/thruthfullqa_en_fr.txt', 'few_shot': False, 'lang_pair': 'en-fr'}
+[2023-07-13 11:56:22] start experiment...
+[2023-07-13 11:56:22] language pair: English-French
+[2023-07-13 11:56:27] model parameters: 222903552
+[2023-07-13 12:06:01] bleu score: 53.39|language acc:0.9828641370869033|question mark acc:0.9363525091799265
+[2023-07-13 12:06:01] ====================
+[2023-07-13 15:57:43] COMMAND: main.py --model-name t5-small --log-file ./results/t5/thruthfullqa_en_fr.txt --dataset ./datasets/truthfullqa/en_fr.df --lang-pair en-ro
+[2023-07-13 15:57:43] Arguments: {'model_name': 't5-small', 'dataset': './datasets/truthfullqa/en_fr.df', 'log_file': './results/t5/thruthfullqa_en_fr.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
+[2023-07-13 15:57:43] start experiment...
+[2023-07-13 15:57:43] language pair: English-Romanian
+[2023-07-13 15:57:45] model parameters: 60506624
+[2023-07-13 15:57:48] COMMAND: main.py --model-name t5-base --log-file ./results/t5/thruthfullqa_en_fr.txt --dataset ./datasets/truthfullqa/en_fr.df --lang-pair en-ro
+[2023-07-13 15:57:48] Arguments: {'model_name': 't5-base', 'dataset': './datasets/truthfullqa/en_fr.df', 'log_file': './results/t5/thruthfullqa_en_fr.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
+[2023-07-13 15:57:48] start experiment...
+[2023-07-13 15:57:48] language pair: English-Romanian
+[2023-07-13 15:57:52] model parameters: 222903552
+[2023-07-13 15:59:14] COMMAND: main.py --model-name t5-base --log-file ./results/t5/thruthfullqa_en_fr.txt --dataset ./datasets/truthfullqa/en_fr.df --lang-pair en-ro
+[2023-07-13 15:59:14] Arguments: {'model_name': 't5-base', 'dataset': './datasets/truthfullqa/en_fr.df', 'log_file': './results/t5/thruthfullqa_en_fr.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
+[2023-07-13 15:59:14] start experiment...
+[2023-07-13 15:59:14] language pair: English-Romanian
+[2023-07-13 15:59:18] model parameters: 222903552

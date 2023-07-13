@@ -1,6 +1,17 @@
-import re
-lang_pair = "de_en"
-model = "nmslgpt"
-dataset = "datasets/truthfullqa/en_de.df"
-translation_output_dir = re.sub(r"[a-z]{2}_[a-z]{2}\.df",f"{lang_pair}_output",dataset)+f"/{model}.txt"
-print(translation_output_dir)
+from transformers import pipeline
+from utils import eval 
+from load_data import *
+import os 
+import load_data 
+import pickle 
+ref_dir = "datasets/truthfullqa/ref_ro.txt"
+df_dir = "datasets/truthfullqa/en_ro.df"
+
+df = pickle.load(open(df_dir,"rb"))
+df.columns = ["en","ro"]
+pickle.dump(df,open(df_dir,"wb"))
+
+
+    
+    
+    

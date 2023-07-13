@@ -22,7 +22,7 @@
 #SBATCH --gres=gpu:1
 
 # Maximum time for the job to run, format: days-hours:minutes:seconds
-#SBATCH --time=12:00:00
+#SBATCH --time=00:00:05
 
 # Location for stdout log - see https://slurm.schedmd.com/sbatch.html#lbAH
 #SBATCH --output=/work/tc046/tc046/%u/slurm_logs/slurm-%A_%a.out
@@ -47,10 +47,10 @@ echo "Job started: $dt"
 module load pytorch/1.12.1-gpu
 echo "modules are loaded"
 
-echo "config_path: $1"
-echo "output_path: $2"
+# echo "config_path: $1"
+# echo "output_path: $2"
 
-COMMAND="python train_fe.py --config_path $1 --output_path $2"
+COMMAND="python test.py"
 echo "Running provided command: ${COMMAND}"
 eval "${COMMAND}"
 echo "Command ran successfully!"

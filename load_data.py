@@ -13,6 +13,8 @@ class Parallel_dataset:
         return len(list(self.data))
     def __getitem__(self,index):
         return self.data[index]
+    def to_list(self):
+        return list(self.data)
 
     
     

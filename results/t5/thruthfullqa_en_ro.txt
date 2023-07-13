@@ -1,0 +1,5 @@
+[2023-07-13 16:00:11] COMMAND: main.py --model-name t5-small --log-file ./results/t5/thruthfullqa_en_ro.txt --dataset ./datasets/truthfullqa/en_ro.df --lang-pair en-ro
+[2023-07-13 16:00:11] Arguments: {'model_name': 't5-small', 'dataset': './datasets/truthfullqa/en_ro.df', 'log_file': './results/t5/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
+[2023-07-13 16:00:11] start experiment...
+[2023-07-13 16:00:11] language pair: English-Romanian
+[2023-07-13 16:00:12] model parameters: 60506624

@@ -1,12 +1,11 @@
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
-from transformers import AutoModelForCausalLM, AutoTokenizer, AutoConfig  # type: ignore
-from transformers import AutoModelForSeq2SeqLM
+  # type: ignore
+from transformers import AutoModelForSeq2SeqLM,AutoTokenizer
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 import re
 import load_data
 import openai 
-from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from typing_extensions import Literal, get_args
 import torch 
 import transformers
@@ -26,17 +25,16 @@ ValidHFModel = [
     "flan-t5-large",
     "flan-t5-xl",
     "flan-t5-xxl",
-    "mt5-base",
-    "mt5-large",
-    "mt5-small",
-    "mt5-medium",
-    "mt5-xxl"
+    "t5-small",
+    "t5-base",
+    "t5-large",
+    "t5-3b",
+    "t5-11b"
 
 ]
 
 
 mbart_lang_ids = {"English":"en_XX","German":"de_DE","Russian":"ru_RU","French":"fr_XX","Romanian":"ro_RO"}
-
 
 
 class HFTranslator():
@@ -47,7 +45,7 @@ class HFTranslator():
         self.need_prompt = True
         self.few_shot = few_shot
         use_fast = True 
-        if model_name.startswith("flan-") or model_name.startswith("mt5"):
+        if model_name.startswith("flan-"):
             if (model_name.startswith("flan-")) and (src_lang not in ["German","English","Romanian","French"]) and (tgt_lang not in ["German","English","Romanian","French"]):
                 raise ValueError("language not supported by flan-t5!")
             prefix = "google/"
@@ -65,6 +63,12 @@ class HFTranslator():
             self.model = MBartForConditionalGeneration.from_pretrained(prefix+model_name).to(device)
             self.tokenizer = MBart50TokenizerFast.from_pretrained(prefix+model_name)
             self.tokenizer.src_lang = mbart_lang_ids[self.src_lang]
+        else:
+            self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name, max_length=1024).to(device)
+            self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name,
+            use_fast=use_fast,
+            model_max_length=1023)
       
         self.num_params = sum(p.numel() for p in self.model.parameters())
   
@@ -75,7 +79,7 @@ class HFTranslator():
         """
         src = self.src_lang
         tgt = self.tgt_lang 
-        prompt = f"[{src}]: {text} \n[{tgt}]:"
+        prompt = f"Translate {src} to {tgt}: {text}"
         return prompt 
  
     
@@ -99,7 +103,7 @@ ValidOpenAiModel ={
     "text-davinci-002":"175B",
     "text-davinci-003":"175B",
     "text-curie-001":"6.7B",
-    "text-babbage-001":"175B",
+    "text-babbage-001":"1.3B",
     "text-ada-001":"350M",
     "davinci":"175B",
     "curie":"6.7B",
@@ -107,8 +111,8 @@ ValidOpenAiModel ={
     "ada":"350M"
 }
 class OpenAiTranslator():
-    def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot=True) -> None:
-        openai.api_key = "[KEY]"
+    def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot) -> None:
+        openai.api_key = "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"
         self.model_name = model_name
         self.src_lang = src_lang 
         self.tgt_lang = tgt_lang
@@ -119,7 +123,7 @@ class OpenAiTranslator():
         Construct MT prompt format: 
         translate [src] to [tgt]: text 
         """
-        prompt = f"translate {self.src_lang} to {self.tgt_lang}: \"{src_text}\""
+        prompt = f"Translate {self.src_lang} to {self.tgt_lang}: \"{src_text}\""
         if self.few_shot: 
             prompt += self.construct_few_shot_examples() + f"\n[{self.src_lang}]:{src_text}\n[{self.tgt_lang}]:"
         return prompt
@@ -127,9 +131,7 @@ class OpenAiTranslator():
         example_pair = {"en":"I don't know","de":"Ich weiß nicht.","fr":"Je ne sais pas.","ro":"Nu știu."}
         src_example = example_pair[lang2id[self.src_lang]]
         tgt_example = example_pair[lang2id[self.tgt_lang]]
-        context = f"[{self.src_lang}]:{src_example}\n[{self.tgt_lang}]:{tgt_example}"
-
-            
+        context = f"[{self.src_lang}]:{src_example}\n[{self.tgt_lang}]:{tgt_example}"  
         return context
 
     def extract_ans(self,response):
@@ -178,11 +180,11 @@ class OpenAiTranslator():
      
         return ans
   
-def get_model(model_name,src_lang,tgt_lang):
+def get_model(model_name,src_lang,tgt_lang,few_shot):
     if model_name in ValidHFModel:
-        model = HFTranslator(model_name,src_lang,tgt_lang)
+        model = HFTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot)
     elif model_name in ValidOpenAiModel.keys():
-        model = OpenAiTranslator(model_name,src_lang,tgt_lang)
+        model = OpenAiTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot)
     else:
         raise ValueError("please enter a valid model name!")
     return model 
@@ -192,7 +194,7 @@ def get_model(model_name,src_lang,tgt_lang):
 
 
 if __name__ == "__main__":
-    text = "Was ist die Hauptstadt von Finland?"
-    translator = OpenAiTranslator("text-babbage-001","German","English",few_shot=False)
-
+    text = "What U.S. state produces the most peaches?"
+    # translator = OpenAiTranslator("text-babbage-001","German","English",few_shot=False)
+    translator = HFTranslator("t5-base","English","German")
     print(translator(text))

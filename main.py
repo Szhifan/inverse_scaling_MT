@@ -4,14 +4,14 @@ from utils import *
 from load_data import Parallel_dataset
 import re 
 import tqdm
-import os
-import evaluate 
+import os 
+from transformers import pipeline
 
 def add_training_args(parser):
     parser.add_argument("--model-name",type=str,help="choose a model.")
     parser.add_argument("--dataset",type=str,help="choose a dataset")
     parser.add_argument("--log-file",type=str,default=None,help="path to save the log")
-    parser.add_argument("--few-shot",type=bool,default=True,help="specify if few shot prompt is needed.")
+    parser.add_argument("--few-shot",action="store_true",help="specify if few shot prompt is needed.")
     parser.add_argument("--lang-pair",type=str,help="indicating the language pair, the first one is the source language and the second one is the target language.")
 
 def get_args():
@@ -30,32 +30,23 @@ def main(args):
     logging.info(f"language pair: {src_lang}-{tgt_lang}")
     
     #load model and dataset 
-    model = get_model(args.model_name,src_lang,tgt_lang)
+    model = get_model(args.model_name,src_lang,tgt_lang,few_shot=True if args.few_shot else False)
     logging.info(f"model parameters: {model.num_params}")
     data_set = Parallel_dataset(args.dataset)
-    translation_output_dir = re.sub(r"[a-z]{2}_[a-z]{2}\.df",f"{args.lang_pair}_output",args.dataset)+f"/{model.model_name}.txt"
+    translation_output_dir = re.sub(r"[a-z]{2}_[a-z]{2}\.df",f"{src_id}_{tgt_id}_output",args.dataset)+f"/{model.model_name}.txt"
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
-    question_mark_acc = 0 
-    lang_acc = 0
     f = open(translation_output_dir,"a")
-    for pair in tqdm.tqdm(data_set):
-        data = {"src":pair[src_id],"mt":model(pair[src_id]),"ref":pair[tgt_id]}
-        if data["mt"].endswit("?"):
-            question_mark_acc += 1 
+    for pair in tqdm.tqdm(data_set.to_list()):
+
+  
+        data = {"src":pair[src_id],"mt":model(pair[src_id]),"ref":pair[tgt_id]} 
         f.write(data["mt"]+"\n")
     f.close()
-    question_mark_acc = question_mark_acc / len(data_set) 
-    tgt_sents = list(data_set.df[tgt_id]) 
-    ref_dir = "ref.txt"
+    ref_dir = f"datasets/truthfullqa/ref_{tgt_id}.txt"
 
-
-    with open(ref_dir,"a") as f:
-        for sent in tgt_sents:
-            f.write(sent)
-            f.write("\n")
-    
-    #calculating bleu score
-    os.system(f"./bleu.sh {ref_dir} {translation_output_dir} {args.log_file}")
+    stats = eval(ref_dir,translation_output_dir)
+    os.system("rm ./ref.txt")
+    logging.info(stats)
     logging.info("="*20)
       
 
