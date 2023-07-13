@@ -1,5 +1,18 @@
-[2023-07-13 16:00:11] COMMAND: main.py --model-name t5-small --log-file ./results/t5/thruthfullqa_en_ro.txt --dataset ./datasets/truthfullqa/en_ro.df --lang-pair en-ro
-[2023-07-13 16:00:11] Arguments: {'model_name': 't5-small', 'dataset': './datasets/truthfullqa/en_ro.df', 'log_file': './results/t5/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
-[2023-07-13 16:00:11] start experiment...
-[2023-07-13 16:00:11] language pair: English-Romanian
-[2023-07-13 16:00:12] model parameters: 60506624
+[2023-07-13 16:21:42] COMMAND: main.py --model-name t5-small --log-file ./results/t5/thruthfullqa_en_ro.txt --dataset ./datasets/truthfullqa/en_ro.df --lang-pair en-ro
+[2023-07-13 16:21:42] Arguments: {'model_name': 't5-small', 'dataset': './datasets/truthfullqa/en_ro.df', 'log_file': './results/t5/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
+[2023-07-13 16:21:42] start experiment...
+[2023-07-13 16:21:42] language pair: English-Romanian
+[2023-07-13 16:22:02] COMMAND: main.py --model-name t5-small --log-file ./results/t5/thruthfullqa_en_ro.txt --dataset ./datasets/truthfullqa/en_ro.df --lang-pair en-ro
+[2023-07-13 16:22:02] Arguments: {'model_name': 't5-small', 'dataset': './datasets/truthfullqa/en_ro.df', 'log_file': './results/t5/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
+[2023-07-13 16:22:02] start experiment...
+[2023-07-13 16:22:02] language pair: English-Romanian
+[2023-07-13 16:22:03] model parameters: 60506624
+[2023-07-13 16:25:39] bleu score: 48.98|language acc:0.0|question mark acc:0.9681762545899633
+[2023-07-13 16:25:39] ====================
+[2023-07-13 16:25:42] COMMAND: main.py --model-name t5-base --log-file ./results/t5/thruthfullqa_en_ro.txt --dataset ./datasets/truthfullqa/en_ro.df --lang-pair en-ro
+[2023-07-13 16:25:42] Arguments: {'model_name': 't5-base', 'dataset': './datasets/truthfullqa/en_ro.df', 'log_file': './results/t5/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro'}
+[2023-07-13 16:25:42] start experiment...
+[2023-07-13 16:25:42] language pair: English-Romanian
+[2023-07-13 16:25:46] model parameters: 222903552
+[2023-07-13 16:34:18] bleu score: 51.40|language acc:0.0|question mark acc:0.9522643818849449
+[2023-07-13 16:34:18] ====================

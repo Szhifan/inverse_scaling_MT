@@ -47,7 +47,6 @@ def eval(ref_dir,mt_dir) -> str:
             sent = re.sub(f"\"","",sent)
             if sent.endswith("?"):
                 q_acc += 1 
-            
             lang_id = lang_id_ppl(sent)[0]["label"]
             if lang_id == tgt_id:
                 l_acc += 1

@@ -37,8 +37,6 @@ def main(args):
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
     f = open(translation_output_dir,"a")
     for pair in tqdm.tqdm(data_set.to_list()):
-
-  
         data = {"src":pair[src_id],"mt":model(pair[src_id]),"ref":pair[tgt_id]} 
         f.write(data["mt"]+"\n")
     f.close()

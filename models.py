@@ -123,9 +123,12 @@ class OpenAiTranslator():
         Construct MT prompt format: 
         translate [src] to [tgt]: text 
         """
-        prompt = f"Translate {self.src_lang} to {self.tgt_lang}: \"{src_text}\""
+        
         if self.few_shot: 
+            prompt = f"Translate {self.src_lang} to {self.tgt_lang}:\n"
             prompt += self.construct_few_shot_examples() + f"\n[{self.src_lang}]:{src_text}\n[{self.tgt_lang}]:"
+        else:
+            prompt = f"Translate {self.src_lang} to {self.tgt_lang}: \"{src_text}\""
         return prompt
     def construct_few_shot_examples(self):
         example_pair = {"en":"I don't know","de":"Ich weiß nicht.","fr":"Je ne sais pas.","ro":"Nu știu."}
@@ -195,6 +198,5 @@ def get_model(model_name,src_lang,tgt_lang,few_shot):
 
 if __name__ == "__main__":
     text = "What U.S. state produces the most peaches?"
-    # translator = OpenAiTranslator("text-babbage-001","German","English",few_shot=False)
-    translator = HFTranslator("t5-base","English","German")
-    print(translator(text))
+    translator = OpenAiTranslator("davinci","German","English",few_shot=True)
+    translator(text)
