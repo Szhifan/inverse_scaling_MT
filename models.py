@@ -12,7 +12,7 @@ import transformers
 from nltk import sent_tokenize 
 from utils import id2lang,lang2id
 import random 
-device = "cpu"
+device = "mps"
 # DEBUG: counting errors
 error_count = 0
 
@@ -32,11 +32,7 @@ ValidHFModel = [
     "t5-11b"
 
 ]
-
-
 mbart_lang_ids = {"English":"en_XX","German":"de_DE","Russian":"ru_RU","French":"fr_XX","Romanian":"ro_RO"}
-
-
 class HFTranslator():
     def __init__(self,model_name:ValidHFModel,src_lang,tgt_lang,few_shot=False) -> None:
         self.src_lang = src_lang
@@ -46,17 +42,14 @@ class HFTranslator():
         self.few_shot = few_shot
         use_fast = True 
         if model_name.startswith("flan-"):
-            if (model_name.startswith("flan-")) and (src_lang not in ["German","English","Romanian","French"]) and (tgt_lang not in ["German","English","Romanian","French"]):
-                raise ValueError("language not supported by flan-t5!")
             prefix = "google/"
+            print(prefix + model_name)
             torch.cuda.empty_cache()
             self.model = AutoModelForSeq2SeqLM.from_pretrained(prefix + model_name, max_length=1024).to(device)
             self.tokenizer = AutoTokenizer.from_pretrained(
-            prefix + model_name,
-            use_fast=use_fast,
-            model_max_length=1023
+            prefix + model_name
         )
-        if model_name.startswith("mbart"):
+        elif model_name.startswith("mbart"):
             self.need_prompt = False
             src_lang_id = mbart_lang_ids[self.src_lang]
             prefix = "facebook/"  
@@ -112,7 +105,7 @@ ValidOpenAiModel ={
 }
 class OpenAiTranslator():
     def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot) -> None:
-        openai.api_key = "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"
+        openai.api_key = "[YOUR KEY]"
         self.model_name = model_name
         self.src_lang = src_lang 
         self.tgt_lang = tgt_lang
@@ -198,5 +191,5 @@ def get_model(model_name,src_lang,tgt_lang,few_shot):
 
 if __name__ == "__main__":
     text = "What U.S. state produces the most peaches?"
-    translator = OpenAiTranslator("davinci","German","English",few_shot=True)
-    translator(text)
+    translator = HFTranslator("flan-t5-small","English","German",few_shot=False)
+    print(translator(text))

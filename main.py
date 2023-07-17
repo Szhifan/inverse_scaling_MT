@@ -43,7 +43,6 @@ def main(args):
     ref_dir = f"datasets/truthfullqa/ref_{tgt_id}.txt"
 
     stats = eval(ref_dir,translation_output_dir)
-    os.system("rm ./ref.txt")
     logging.info(stats)
     logging.info("="*20)
       

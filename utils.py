@@ -1,6 +1,7 @@
 import logging 
 import os
 import sys 
+import math 
 from transformers import pipeline
 import re
 import tqdm 
@@ -34,9 +35,6 @@ def eval(ref_dir,mt_dir) -> str:
     
     stats = f"bleu score: {bleu_score}"
     if re.search("datasets/truthfullqa",mt_dir):
-
-        tgt_id = re.search(r"[a-z]{2}_[a-z]{2}",mt_dir).group(0)[-2:]
-        lang_id_ppl = pipeline("text-classification", model="papluca/xlm-roberta-base-language-detection")
         f = open(mt_dir,"r")
         mt_text = f.readlines()
         n = len(mt_text)
@@ -47,15 +45,36 @@ def eval(ref_dir,mt_dir) -> str:
             sent = re.sub(f"\"","",sent)
             if sent.endswith("?"):
                 q_acc += 1 
-            lang_id = lang_id_ppl(sent)[0]["label"]
-            if lang_id == tgt_id:
-                l_acc += 1
+            # lang_id = lang_id_ppl(sent)[0]["label"]
+            # if lang_id == tgt_id:
+            #     l_acc += 1
         f.close()
         l_acc = l_acc / n
         q_acc = q_acc / n
  
         stats = stats + f"|language acc:{l_acc}|question mark acc:{q_acc}"
     return stats
+
+def extract_stats(path:str):
+    file = open(path,"r").read()
+    lang_pair = re.search(r"language pair:\s([a-zA-Z]+\-[a-zA-Z]+)\n",file).group(1)
+    stats = {"language pair":lang_pair,"data":[]}
+    ex_items = re.split("====================",file)
+    for ex in ex_items:
+        print(ex)
+        item = {}
+        item["model_name"] = re.search(r"--model-name\s(.+?)\s",ex).group(1)
+        item["num_params"] = float(re.search(r"model parameters:\s(.+?)\n",ex).group(1))
+        item["bleu"] = float(re.search(r"bleu score:\s([0-9]+\.[0-9]+)",ex).group(1))
+        item["accuracy"] = round(float(re.search(r"question mark acc:([0-9]+\.[0-9]+)",ex).group(1)),4) 
+        stats["data"].append(item)
+    
+    return stats
+
+
+
+    
+
+
 if __name__ == "__main__":
-    stats = eval("datasets/truthfullqa/ref_de.txt","datasets/truthfullqa/en_de_output/babbage.txt")
-    print(stats)
+    print(extract_stats("results/t5/thruthfullqa_en_de.txt"))

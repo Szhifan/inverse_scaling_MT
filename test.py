@@ -1,20 +1,10 @@
-from transformers import pipeline
-from utils import eval 
-from load_data import *
-import os 
-import load_data 
-import pickle 
-ref_dir = "datasets/truthfullqa/ref_ro.txt"
-df_dir = "datasets/truthfullqa/en_ro.df"
-
-df = pickle.load(open(df_dir,"rb"))
-with open(ref_dir,"a") as f:
-    for sent in df["ro"]:
-        f.write(sent)
-        f.write("\n")
-
-
-
-    
-    
-    
+from utils import eval
+import re 
+import os
+dir_de = "datasets/truthfullqa/en_de_output"
+ref_de = "datasets/truthfullqa/ref_de.txt"
+for f in os.listdir(dir_de):
+    if re.search(r"001",f):
+        print(f)
+        info = eval(ref_de,dir_de+"/"+f)
+        print(info)
