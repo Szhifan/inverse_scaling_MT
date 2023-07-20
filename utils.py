@@ -58,17 +58,23 @@ def eval(ref_dir,mt_dir) -> str:
 def extract_stats(path:str):
     file = open(path,"r").read()
     lang_pair = re.search(r"language pair:\s([a-zA-Z]+\-[a-zA-Z]+)\n",file).group(1)
-    stats = {"language pair":lang_pair,"data":[]}
+    stats = []
     ex_items = re.split("====================",file)
     for ex in ex_items:
-        print(ex)
         item = {}
         item["model_name"] = re.search(r"--model-name\s(.+?)\s",ex).group(1)
-        item["num_params"] = float(re.search(r"model parameters:\s(.+?)\n",ex).group(1))
+        size = re.search(r"model parameters:\s(.+?)\n",ex).group(1)
+        if re.search("[^0-9]",size): #if 
+            srch = re.search(r"([0-9]+)([BM])",size)
+            digit,order = float(srch.group(1)),srch.group(2)
+            order = 1000000 if order == "M" else 1000000000
+            size = order*digit 
+        else:
+            size = float(size)
+        item["num_params"] = size
         item["bleu"] = float(re.search(r"bleu score:\s([0-9]+\.[0-9]+)",ex).group(1))
         item["accuracy"] = round(float(re.search(r"question mark acc:([0-9]+\.[0-9]+)",ex).group(1)),4) 
-        stats["data"].append(item)
-    
+        stats.append(item)   
     return stats
 
 
@@ -77,4 +83,4 @@ def extract_stats(path:str):
 
 
 if __name__ == "__main__":
-    print(extract_stats("results/t5/thruthfullqa_en_de.txt"))
+    print(extract_stats("results/openai/thruthfullqa_de_en.txt"))

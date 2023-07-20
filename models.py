@@ -4,14 +4,9 @@ os.environ['KMP_DUPLICATE_LIB_OK']='True'
 from transformers import AutoModelForSeq2SeqLM,AutoTokenizer
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 import re
-import load_data
 import openai 
-from typing_extensions import Literal, get_args
 import torch 
-import transformers
-from nltk import sent_tokenize 
 from utils import id2lang,lang2id
-import random 
 device = "mps"
 # DEBUG: counting errors
 error_count = 0
@@ -105,7 +100,7 @@ ValidOpenAiModel ={
 }
 class OpenAiTranslator():
     def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot) -> None:
-        openai.api_key = "[YOUR KEY]"
+        openai.api_key = "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"
         self.model_name = model_name
         self.src_lang = src_lang 
         self.tgt_lang = tgt_lang
@@ -132,10 +127,8 @@ class OpenAiTranslator():
 
     def extract_ans(self,response):
         translation = re.sub(r"\n","",response)
-     
         if self.few_shot: 
             try:
-                translation = sent_tokenize(translation)[0] 
                 if re.search(r"^(.+?)\[.+?\]",translation):
                     translation = re.search(r"^(.+?)\[.+?\]",translation).group(1)
             except: 
@@ -160,20 +153,21 @@ class OpenAiTranslator():
             engine = self.model_name,  # Determines the quality, speed, and cost.
             temperature = 0.5,            # Level of creativity in the response
             prompt=prompt,           # What the user typed in
-            max_tokens=50,             # Maximum tokens in the prompt AND response
+            max_tokens=40,             # Maximum tokens in the prompt AND response
             n=1,                        # The number of completions to generate
             stop=None,                  # An optional setting to control response generation
         )
             response = completions.choices[0].text
-        return response
-        
-
-
-        
+        return response      
     def __call__(self,text):
-        response = self._call_api(text)
+        for _ in range(4):
+            try:
+                response = self._call_api(text)
+                break 
+            except:
+                pass
+
         ans = self.extract_ans(response)
-     
         return ans
   
 def get_model(model_name,src_lang,tgt_lang,few_shot):
@@ -183,13 +177,8 @@ def get_model(model_name,src_lang,tgt_lang,few_shot):
         model = OpenAiTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot)
     else:
         raise ValueError("please enter a valid model name!")
-    return model 
-
-
-        
-
-
+    return model
 if __name__ == "__main__":
-    text = "What U.S. state produces the most peaches?"
-    translator = HFTranslator("flan-t5-small","English","German",few_shot=False)
+    text = "Are most people in South Korea Christian?"
+    translator = OpenAiTranslator("ada","English","French",few_shot=True)
     print(translator(text))
