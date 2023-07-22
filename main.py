@@ -1,15 +1,11 @@
 import argparse 
 from models import * 
 from utils import *
-from load_data import Parallel_dataset
-import re 
 import tqdm
 import os 
-from transformers import pipeline
 
 def add_training_args(parser):
     parser.add_argument("--model-name",type=str,help="choose a model.")
-    parser.add_argument("--dataset",type=str,help="choose a dataset")
     parser.add_argument("--log-file",type=str,default=None,help="path to save the log")
     parser.add_argument("--few-shot",action="store_true",help="specify if few shot prompt is needed.")
     parser.add_argument("--lang-pair",type=str,help="indicating the language pair, the first one is the source language and the second one is the target language.")
@@ -32,22 +28,21 @@ def main(args):
     #load model and dataset 
     model = get_model(args.model_name,src_lang,tgt_lang,few_shot=True if args.few_shot else False)
     logging.info(f"model parameters: {model.num_params}")
-    data_set = Parallel_dataset(args.dataset)
-    translation_output_dir = re.sub(r"[a-z]{2}_[a-z]{2}\.df",f"{src_id}_{tgt_id}_output",args.dataset)+f"/{model.model_name}.txt"
+    src_dir = f"truthfullqa/ref_{src_id}.txt"
+    src_text = open(src_dir,"r").readlines()
+    translation_output_dir = f"truthfullqa/prompt2/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
+    print(translation_output_dir)
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
     f = open(translation_output_dir,"a")
-    for pair in tqdm.tqdm(data_set.to_list()):
-        data = {"src":pair[src_id],"mt":model(pair[src_id]),"ref":pair[tgt_id]} 
-        f.write(data["mt"]+"\n")
+    for sent in tqdm.tqdm(src_text[279:]):
+        sent = sent.strip("\n")
+        output = model(sent) 
+        f.write(output+"\n")
     f.close()
-    ref_dir = f"datasets/truthfullqa/ref_{tgt_id}.txt"
-
+    ref_dir = f"truthfullqa/ref_{tgt_id}.txt"
     stats = eval(ref_dir,translation_output_dir)
     logging.info(stats)
     logging.info("="*20)
-      
-
-
 if __name__ == "__main__":
     args = get_args()
     main(args)

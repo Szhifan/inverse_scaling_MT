@@ -5,7 +5,7 @@ import math
 from transformers import pipeline
 import re
 import tqdm 
-id2lang = {"en":"English","ro":"Romanian","fr":"French","de":"German"}
+id2lang = {"en":"English","ro":"Romanian","fr":"French","de":"German","ru":"Russian"}
 lang2id = {kp[1]:kp[0] for kp in id2lang.items()}
 def init_logging(args):
     handlers = [logging.StreamHandler()]
@@ -34,33 +34,27 @@ def eval(ref_dir,mt_dir) -> str:
     os.system("rm ./bleu.txt")
     
     stats = f"bleu score: {bleu_score}"
-    if re.search("datasets/truthfullqa",mt_dir):
+    if re.search("truthfullqa",mt_dir):
         f = open(mt_dir,"r")
         mt_text = f.readlines()
         n = len(mt_text)
         q_acc = 0 
-        l_acc = 0 
         for sent in tqdm.tqdm(mt_text):
             sent = sent[:-1]
             sent = re.sub(f"\"","",sent)
             if sent.endswith("?"):
                 q_acc += 1 
-            # lang_id = lang_id_ppl(sent)[0]["label"]
-            # if lang_id == tgt_id:
-            #     l_acc += 1
         f.close()
-        l_acc = l_acc / n
         q_acc = q_acc / n
  
-        stats = stats + f"|language acc:{l_acc}|question mark acc:{q_acc}"
+        stats = stats + f"|question mark acc:{q_acc}"
     return stats
 
 def extract_stats(path:str):
     file = open(path,"r").read()
-    lang_pair = re.search(r"language pair:\s([a-zA-Z]+\-[a-zA-Z]+)\n",file).group(1)
     stats = []
     ex_items = re.split("====================",file)
-    for ex in ex_items:
+    for ex in ex_items[:-1]:
         item = {}
         item["model_name"] = re.search(r"--model-name\s(.+?)\s",ex).group(1)
         size = re.search(r"model parameters:\s(.+?)\n",ex).group(1)
