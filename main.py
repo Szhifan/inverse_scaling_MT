@@ -34,7 +34,7 @@ def main(args):
     print(translation_output_dir)
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
     f = open(translation_output_dir,"a")
-    for sent in tqdm.tqdm(src_text[279:]):
+    for sent in tqdm.tqdm(src_text):
         sent = sent.strip("\n")
         output = model(sent) 
         f.write(output+"\n")

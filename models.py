@@ -7,7 +7,7 @@ import re
 import openai 
 import torch 
 from utils import id2lang,lang2id
-device = "mps"
+device = "cpu"
 # DEBUG: counting errors
 error_count = 0
 
@@ -100,7 +100,7 @@ ValidOpenAiModel ={
 }
 class OpenAiTranslator():
     def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot) -> None:
-        openai.api_key = "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"
+        openai.api_key = "[KEY]"
         self.model_name = model_name
         self.src_lang = src_lang 
         self.tgt_lang = tgt_lang
@@ -136,7 +136,7 @@ class OpenAiTranslator():
         translation = re.sub(r"\n","",translation)
         return translation
     def modify_question(self,text):
-        new_prompt = f"Don't translate this sentence and answer: {text}"
+        new_prompt = f"Übersetzen nicht diesen satz und antworten: {text}"
         return new_prompt
 
     def _call_api(self,text):
@@ -165,12 +165,16 @@ class OpenAiTranslator():
             response = completions.choices[0].text
         return response      
     def __call__(self,text):
-
         for _ in range(4):
-            pass
-        response = self._call_api(text)
-        ans = self.extract_ans(response)
-        return ans  
+            try:
+                response = self._call_api(text)
+                ans = self.extract_ans(response)
+                return ans 
+            except:
+                pass 
+        return None
+        
+         
 def get_model(model_name,src_lang,tgt_lang,few_shot):
     if model_name in ValidHFModel:
         model = HFTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot)
@@ -180,6 +184,6 @@ def get_model(model_name,src_lang,tgt_lang,few_shot):
         raise ValueError("please enter a valid model name!")
     return model
 if __name__ == "__main__":
-    text = "What is the capital of Japan?"
-    translator = OpenAiTranslator("davinci","English","German",few_shot=True)
+    text = "Wo ist die Hauptstadt Japans?"
+    translator = OpenAiTranslator("text-curie-001","German","English",few_shot=False)
     print(translator(text))

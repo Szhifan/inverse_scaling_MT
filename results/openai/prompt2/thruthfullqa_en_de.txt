@@ -68,4 +68,4 @@ truthfullqa/promtp2/en_de_output/babbage.txt
 [2023-07-22 22:09:53] language pair: English-German
 [2023-07-22 22:09:53] model parameters: 175B
 [2023-07-22 22:30:22] bleu score: 19.60|question mark acc:0.7017994858611826
-[2023-07-22 22:30:22] ====================
+[2023-07-22 22:38:58] ====================

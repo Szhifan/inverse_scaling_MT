@@ -67,4 +67,5 @@
 [2023-07-21 22:00:20] language pair: English-Russian
 [2023-07-21 22:00:20] model parameters: 175B
 [2023-07-21 22:39:15] bleu score: 31.10|question mark acc:0.9640102827763496
+[2023-07-21 22:39:15] ====================
 

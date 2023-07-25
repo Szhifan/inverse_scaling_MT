@@ -4,7 +4,7 @@ import re
 import numpy as np 
 
 
-log = "results/openai/thruthfullqa_fr_en.txt" #modify file name!
+log = "results/openai/thruthfullqa_en_ru.txt" #modify file name!
 
 stats = extract_stats(log)
 
@@ -25,10 +25,10 @@ def parse_info(info:dict):
             text_dvnc_2["accuracy"].append(item["accuracy"])
             text_dvnc_2["bleu"].append(item["bleu"]) 
         elif model_name.endswith("003"):
+
             text_dvnc_3["num_params"].append(item["num_params"])
             text_dvnc_3["accuracy"].append(item["accuracy"])
             text_dvnc_3["bleu"].append(item["bleu"]) 
-
 
         else:
             gpt3["num_params"].append(item["num_params"])
@@ -44,6 +44,7 @@ def plot(metric:str,src_id,tgt_id):
     log = f"results/openai/thruthfullqa_{src_id}_{tgt_id}.txt"
     stats = extract_stats(log)
     insgpt,gpt3,text_dvnc_2,text_dvnc_3=parse_info(stats)
+
     pp.xticks([10**i for i in range(8,12)])
     pp.xscale("log")
     pp.plot("num_params",metric,data=insgpt,marker="+",color="r",label="instruct gpt") ##
@@ -56,4 +57,4 @@ def plot(metric:str,src_id,tgt_id):
     pp.title(f"{id2lang[src_id]}-{id2lang[tgt_id]}:plot of model size vs {metric}") #modify figure path!
     pp.savefig(f"figures/openai/{metric}_{src_id}_{tgt_id}.jpg")  ###
 
-plot("bleu","ru","en")
+plot("bleu","en","ru")
