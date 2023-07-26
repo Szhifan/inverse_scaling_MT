@@ -26,11 +26,11 @@ def main(args):
     logging.info(f"language pair: {src_lang}-{tgt_lang}")
     
     #load model and dataset 
-    model = get_model(args.model_name,src_lang,tgt_lang,few_shot=True if args.few_shot else False)
+    model = get_model(args.model_name,src_lang,tgt_lang,few_shot=True if args.few_shot else False,use_prefix=True)
     logging.info(f"model parameters: {model.num_params}")
     src_dir = f"truthfullqa/ref_{src_id}.txt"
     src_text = open(src_dir,"r").readlines()
-    translation_output_dir = f"truthfullqa/prompt2/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
+    translation_output_dir = f"truthfullqa/prefix/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
     print(translation_output_dir)
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
     f = open(translation_output_dir,"a")

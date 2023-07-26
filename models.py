@@ -1,6 +1,6 @@
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
-
+from utils import get_prefix
 from transformers import AutoModelForSeq2SeqLM,AutoTokenizer
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 import re
@@ -10,7 +10,7 @@ from utils import id2lang,lang2id
 device = "cpu"
 # DEBUG: counting errors
 error_count = 0
-
+hf_cache_dir = "/Users/sunzhifan/.cache/huggingface/hub"
 #Pre-define some valid Hugging Face models. 
 ValidHFModel = [
     "mbart-large-50-many-to-one-mmt",
@@ -29,20 +29,26 @@ ValidHFModel = [
 ]
 mbart_lang_ids = {"English":"en_XX","German":"de_DE","Russian":"ru_RU","French":"fr_XX","Romanian":"ro_RO"}
 class HFTranslator():
-    def __init__(self,model_name:ValidHFModel,src_lang,tgt_lang,few_shot=False) -> None:
+    
+    def __init__(self,model_name:ValidHFModel,src_lang,tgt_lang,few_shot=False,use_prefix=False) -> None:
         self.src_lang = src_lang
         self.tgt_lang = tgt_lang 
         self.model_name = model_name
         self.need_prompt = True
         self.few_shot = few_shot
+        self.use_prefix = use_prefix
         use_fast = True 
         if model_name.startswith("flan-"):
             prefix = "google/"
             print(prefix + model_name)
             torch.cuda.empty_cache()
-            self.model = AutoModelForSeq2SeqLM.from_pretrained(prefix + model_name, max_length=1024).to(device)
+            self.model = AutoModelForSeq2SeqLM.from_pretrained(
+                prefix + model_name,
+                cache_dir=hf_cache_dir,
+                max_length=1024).to(device)
             self.tokenizer = AutoTokenizer.from_pretrained(
-            prefix + model_name
+            prefix + model_name,
+            cache_dir=hf_cache_dir
         )
         elif model_name.startswith("mbart"):
             self.need_prompt = False
@@ -52,10 +58,11 @@ class HFTranslator():
             self.tokenizer = MBart50TokenizerFast.from_pretrained(prefix+model_name)
             self.tokenizer.src_lang = mbart_lang_ids[self.src_lang]
         else:
-            self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name, max_length=1024).to(device)
+            self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name, max_length=1024,cache_dir=hf_cache_dir).to(device)
             self.tokenizer = AutoTokenizer.from_pretrained(
             model_name,
             use_fast=use_fast,
+            cache_dir=hf_cache_dir,
             model_max_length=1023)
       
         self.num_params = sum(p.numel() for p in self.model.parameters())
@@ -69,21 +76,22 @@ class HFTranslator():
         tgt = self.tgt_lang 
         prompt = f"Translate {src} to {tgt}: {text}"
         return prompt 
- 
-    
+
     def __call__(self,src_text:str):
+        if self.use_prefix:
+            src_text = get_prefix(lang2id[self.src_lang])+src_text
         if self.need_prompt:
             prompt = self.get_prompt(src_text)
             input_ids = self.tokenizer(prompt,return_tensors="pt")["input_ids"].to(device)
-            outputs = self.model.generate(input_ids)
+            outputs = self.model.generate(input_ids,max_length=120)
         else:
             input_ids = self.tokenizer(src_text,return_tensors="pt")["input_ids"].to(device)
             if re.search(r"-to-many",self.model_name):
                 outputs = self.model.generate(input_ids,forced_bos_token_id=self.tokenizer.lang_code_to_id[mbart_lang_ids[self.tgt_lang]])
             else:
                 outputs = self.model.generate(input_ids)
-        translation = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-        return translation
+        translation = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+        return translation[0]
 
 ValidOpenAiModel ={
     "gpt-3.5-turbo":"175B",
@@ -99,13 +107,14 @@ ValidOpenAiModel ={
     "ada":"350M"
 }
 class OpenAiTranslator():
-    def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot) -> None:
+    def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot=False,use_prefix=False) -> None:
         openai.api_key = "[KEY]"
         self.model_name = model_name
         self.src_lang = src_lang 
         self.tgt_lang = tgt_lang
         self.num_params = ValidOpenAiModel[self.model_name]
         self.few_shot = few_shot # determine if few-shot-prmopt is needed. 
+        self.use_prefix = use_prefix
     def get_prompt(self,src_text):
         """
         Construct MT prompt format: 
@@ -135,12 +144,11 @@ class OpenAiTranslator():
                 pass 
         translation = re.sub(r"\n","",translation)
         return translation
-    def modify_question(self,text):
-        new_prompt = f"Übersetzen nicht diesen satz und antworten: {text}"
-        return new_prompt
+
 
     def _call_api(self,text):
-        text = self.modify_question(text)
+        if self.use_prefix:
+            text = get_prefix(lang2id[self.src_lang])+text
         prompt = self.get_prompt(text)
         if self.model_name.startswith("gpt"):
             try:
@@ -175,15 +183,16 @@ class OpenAiTranslator():
         return None
         
          
-def get_model(model_name,src_lang,tgt_lang,few_shot):
+def get_model(model_name,src_lang,tgt_lang,few_shot,use_prefix):
     if model_name in ValidHFModel:
-        model = HFTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot)
+        model = HFTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot,use_prefix=use_prefix)
     elif model_name in ValidOpenAiModel.keys():
-        model = OpenAiTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot)
+        model = OpenAiTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot,use_prefix=use_prefix)
     else:
         raise ValueError("please enter a valid model name!")
     return model
 if __name__ == "__main__":
-    text = "Wo ist die Hauptstadt Japans?"
-    translator = OpenAiTranslator("text-curie-001","German","English",few_shot=False)
+    text = ""
+    # translator = OpenAiTranslator("text-curie-001","German","English",few_shot=False,use_prefix=True)
+    translator = HFTranslator("t5-base","English","German",use_prefix=False)
     print(translator(text))
