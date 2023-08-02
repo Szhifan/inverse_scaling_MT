@@ -83,4 +83,4 @@ def get_prefix(src_id):
     
 
 if __name__ == "__main__":
-    print(extract_stats("results/openai/thruthfullqa_de_en.txt"))
+    print(extract_stats("results/openai/truthfullqa_de_en.txt"))

@@ -25,7 +25,4 @@ bleu score: 15.86|language acc:0.0|question mark acc:0.9155446756425949
 [2023-07-14 22:32:07] language pair: English-French
 [2023-07-14 22:32:52] model parameters: 2849757184
 bleu score: 25.51|language acc:0.0|question mark acc:0.8861689106487148
-[2023-07-16 21:27:53] COMMAND: main.py --model-name t5-11b --log-file ./results/flan-t5/thruthfullqa_en_fr.txt --dataset ./datasets/truthfullqa/en_fr.df --lang-pair en-fr
-[2023-07-16 21:27:53] Arguments: {'model_name': 't5-11b', 'dataset': './datasets/truthfullqa/en_fr.df', 'log_file': './results/flan-t5/thruthfullqa_en_fr.txt', 'few_shot': False, 'lang_pair': 'en-fr'}
-[2023-07-16 21:27:53] start experiment...
-[2023-07-16 21:27:53] language pair: English-French
+[2023-07-14 15:06:45] ====================

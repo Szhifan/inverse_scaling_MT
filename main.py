@@ -9,6 +9,7 @@ def add_training_args(parser):
     parser.add_argument("--log-file",type=str,default=None,help="path to save the log")
     parser.add_argument("--few-shot",action="store_true",help="specify if few shot prompt is needed.")
     parser.add_argument("--lang-pair",type=str,help="indicating the language pair, the first one is the source language and the second one is the target language.")
+    parser.add_argument("--prefix",action="store_true",help="if use prefix or not")
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -26,11 +27,14 @@ def main(args):
     logging.info(f"language pair: {src_lang}-{tgt_lang}")
     
     #load model and dataset 
-    model = get_model(args.model_name,src_lang,tgt_lang,few_shot=True if args.few_shot else False,use_prefix=True)
+    model = get_model(args.model_name,src_lang,tgt_lang,few_shot=True if args.few_shot else False,use_prefix=True if args.prefix else False)
     logging.info(f"model parameters: {model.num_params}")
     src_dir = f"truthfullqa/ref_{src_id}.txt"
     src_text = open(src_dir,"r").readlines()
-    translation_output_dir = f"truthfullqa/prefix/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
+    if args.prefix:
+        translation_output_dir = f"truthfullqa/prefix/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
+    else:
+        translation_output_dir = f"truthfullqa/noprefix/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
     print(translation_output_dir)
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
     f = open(translation_output_dir,"a")
