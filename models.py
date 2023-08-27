@@ -1,6 +1,6 @@
 import os
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
-from utils import get_prefix
+from utils import get_prefix,get_prefix_capitalize
 from transformers import AutoModelForSeq2SeqLM,AutoTokenizer
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 import re
@@ -108,7 +108,7 @@ ValidOpenAiModel ={
 }
 class OpenAiTranslator():
     def __init__(self,model_name:ValidOpenAiModel,src_lang,tgt_lang,few_shot=False,use_prefix=False) -> None:
-        openai.api_key = "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"
+        openai.api_key = "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"
         self.model_name = model_name
         self.src_lang = src_lang 
         self.tgt_lang = tgt_lang
@@ -128,7 +128,7 @@ class OpenAiTranslator():
             prompt = f"Translate {self.src_lang} to {self.tgt_lang}: \"{src_text}\""
         return prompt
     def construct_few_shot_examples(self):
-        example_pair = {"en":"I don't know","de":"Ich weiß nicht.","fr":"Je ne sais pas.","ro":"Nu știu.","ru":"Я не знаю."}
+        example_pair = {"en":"I don't know","de":"Ich weiß nicht.","fr":"Je ne sais pas.","ro":"Nu știu.","ru":"Я не знаю.","zh":"我能不知道。"}
         src_example = example_pair[lang2id[self.src_lang]]
         tgt_example = example_pair[lang2id[self.tgt_lang]]
         context = f"[{self.src_lang}]:{src_example}\n[{self.tgt_lang}]:{tgt_example}"  
@@ -150,6 +150,7 @@ class OpenAiTranslator():
         if self.use_prefix:
             text = get_prefix(lang2id[self.src_lang])+text
         prompt = self.get_prompt(text)
+
         if self.model_name.startswith("gpt"):
             try:
                 response = openai.ChatCompletion.create(
@@ -181,7 +182,52 @@ class OpenAiTranslator():
             except:
                 pass 
         return None
-        
+
+class OpenAImodel():
+    def __init__(self,model_name:ValidOpenAiModel,lang:str) -> None:
+        openai.api_key = "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"
+        self.model_name = model_name 
+        self.num_params = ValidOpenAiModel[self.model_name]
+        self.lang = lang 
+    def extract_ans(self,response):
+        ans = re.sub(r"\n","",response)
+        return ans 
+    def _call_api(self,text):
+  
+        prompt = get_prefix_capitalize(self.lang)+text 
+
+        if self.model_name.startswith("gpt"):
+            try:
+                response = openai.ChatCompletion.create(
+                        model=self.model_name,
+                        messages=[
+                            {"role": "user", "content": prompt},
+                        ],
+                        temperature=0, 
+                    )['choices'][0]['message']['content']
+            except:
+                response = ""
+        else:
+            completions = openai.Completion.create(
+            engine = self.model_name,  # Determines the quality, speed, and cost.
+            temperature = 0,            # Level of creativity in the response
+            prompt=prompt,           # What the user typed in
+            max_tokens=120,             # Maximum tokens in the prompt AND response
+            n=1,                        # The number of completions to generate
+            stop=None,                  # An optional setting to control response generation
+        )
+            response = completions.choices[0].text
+            
+        return response      
+    def __call__(self,text):
+        for _ in range(4):
+            try:
+                response = self._call_api(text)
+                ans = self.extract_ans(response)
+                return ans 
+            except:
+                pass 
+        return None
          
 def get_model(model_name,src_lang,tgt_lang,few_shot,use_prefix):
     if model_name in ValidHFModel:
@@ -192,7 +238,8 @@ def get_model(model_name,src_lang,tgt_lang,few_shot,use_prefix):
         raise ValueError("please enter a valid model name!")
     return model
 if __name__ == "__main__":
-    text = ""
-    # translator = OpenAiTranslator("text-curie-001","German","English",few_shot=False,use_prefix=True)
-    translator = HFTranslator("t5-base","English","German",use_prefix=False)
-    print(translator(text))
+    text_en = "I am your vather"
+    text_de = "was is die Hauptstadt von Russland?"
+    text_zh = "日本的首都在哪里？"
+    translator = OpenAiTranslator("text-babbage-001","English","German",use_prefix=False)
+    print(translator(text_en))

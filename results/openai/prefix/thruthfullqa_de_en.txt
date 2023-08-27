@@ -1,8 +1,10 @@
-[2023-07-23 20:22:42] COMMAND: main.py --model-name babbage --log-file ./results/openai/prompt2/thruthfullqa_de_en.txt --lang-pair de-en --few-shot
+[2023-07-23 20:22:42] COMMAND: main.py --model-name ada --log-file ./results/openai/prompt2/thruthfullqa_de_en.txt --lang-pair de-en --few-shot
 [2023-07-23 20:22:42] Arguments: {'model_name': 'babbage', 'log_file': './results/openai/prompt2/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en'}
 [2023-07-23 20:22:42] start experiment...
 [2023-07-23 20:22:42] language pair: German-English
-[2023-07-23 20:22:42] model parameters: 1.3B
+[2023-07-23 20:22:42] model parameters: 350M
+bleu score: 16.02|question mark acc:0.6002570694087404
+[2023-07-23 20:57:38] ====================
 [2023-07-23 20:42:49] COMMAND: main.py --model-name babbage --log-file ./results/openai/prompt2/thruthfullqa_de_en.txt --lang-pair de-en --few-shot
 [2023-07-23 20:42:49] Arguments: {'model_name': 'babbage', 'log_file': './results/openai/prompt2/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en'}
 [2023-07-23 20:42:49] start experiment...

@@ -9,7 +9,8 @@ import numpy as np
 
 
 
-def parse_info(info:dict):
+def parse_info(path):
+    info = extract_stats(path)
     instruct_gpt = {"size":[],"accuracy":[],"bleu":[]}
     gpt3 = {"size":[],"accuracy":[],"bleu":[]}
     text_dvnc_2 = {"size":[],"accuracy":[],"bleu":[]}
@@ -92,4 +93,9 @@ def pearson(info:dict):
     if len(acc)>=2:
         return pearsonr(size,acc)
 if __name__ == "__main__":
-    plot_t5("accuracy")
+    log_path = "results/openai/prefix/thruthfullqa_en_ru.txt"
+    instruct_gpt,gpt3,text_dvnc_2,text_dvnc_3 = parse_info(log_path)
+    accs = instruct_gpt["accuracy"]+gpt3["accuracy"]+text_dvnc_2["accuracy"]+text_dvnc_3["accuracy"]
+    print(sum(accs)/len(accs))
+    
+    

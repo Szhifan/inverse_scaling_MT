@@ -1,0 +1,84 @@
+[2023-08-08 13:56:36] COMMAND: main2.py --model-name text-ada-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 13:56:36] Arguments: {'model_name': 'text-ada-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 13:56:36] start experiment...
+[2023-08-08 13:56:36] language: de
+[2023-08-08 13:56:36] model parameters: 350M
+[2023-08-08 14:02:11] accuracy: 0.6272493573264781
+[2023-08-08 14:02:11] ====================
+[2023-08-08 14:02:13] COMMAND: main2.py --model-name text-babbage-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 14:02:13] Arguments: {'model_name': 'text-babbage-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 14:02:13] start experiment...
+[2023-08-08 14:02:13] language: de
+[2023-08-08 14:02:13] model parameters: 1.3B
+[2023-08-08 14:02:11] accuracy: 0.9725433526011561
+[2023-08-08 14:02:11] ====================
+[2023-08-08 14:40:09] COMMAND: main2.py --model-name text-curie-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 14:40:09] Arguments: {'model_name': 'text-curie-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 14:40:09] start experiment...
+[2023-08-08 14:40:09] language: de
+[2023-08-08 14:40:09] model parameters: 6.7B
+[2023-08-08 14:47:59] accuracy: 0.9524421593830334
+[2023-08-08 14:47:59] ====================
+[2023-08-08 14:48:03] COMMAND: main2.py --model-name text-davinci-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 14:48:03] Arguments: {'model_name': 'text-davinci-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 14:48:03] start experiment...
+[2023-08-08 14:48:03] language: de
+[2023-08-08 14:48:03] model parameters: 175B
+[2023-08-08 15:08:05] accuracy: 0.7930591259640103
+[2023-08-08 15:08:05] ====================
+[2023-08-08 15:08:07] COMMAND: main2.py --model-name text-davinci-002 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 15:08:07] Arguments: {'model_name': 'text-davinci-002', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 15:08:07] start experiment...
+[2023-08-08 15:08:07] language: de
+[2023-08-08 15:08:07] model parameters: 175B
+[2023-08-08 16:03:36] accuracy:  0.9987146529562982
+[2023-08-08 16:03:36] ====================
+[2023-08-08 16:03:40] COMMAND: main2.py --model-name text-davinci-003 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 16:03:40] Arguments: {'model_name': 'text-davinci-003', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 16:03:40] start experiment...
+[2023-08-08 16:03:40] language: de
+[2023-08-08 16:03:40] model parameters: 175B
+[2023-08-08 17:13:23] accuracy: 0.5154241645244216
+[2023-08-08 17:13:23] ====================
+[2023-08-08 21:26:22] COMMAND: main2.py --model-name text-davinci-002 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 21:26:22] Arguments: {'model_name': 'text-davinci-002', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 21:26:22] start experiment...
+[2023-08-08 21:26:22] language: de
+[2023-08-08 21:26:22] model parameters: 175B
+[2023-08-08 21:41:03] accuracy: 0.9987146529562982
+[2023-08-08 21:41:03] ====================
+[2023-08-08 21:41:07] COMMAND: main2.py --model-name text-davinci-003 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 21:41:07] Arguments: {'model_name': 'text-davinci-003', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 21:41:07] start experiment...
+[2023-08-08 21:41:07] language: de
+[2023-08-08 21:41:07] model parameters: 175B
+[2023-08-08 21:52:37] accuracy: 0.5938303341902313
+[2023-08-08 21:52:37] ====================
+[2023-08-08 22:08:30] COMMAND: main2.py --model-name text-ada-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 22:08:30] Arguments: {'model_name': 'text-ada-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 22:08:30] start experiment...
+[2023-08-08 22:08:30] language: de
+[2023-08-08 22:08:30] model parameters: 350M
+[2023-08-08 22:15:14] accuracy: 0.007712082262210797
+[2023-08-08 22:15:14] ====================
+[2023-08-08 22:15:18] COMMAND: main2.py --model-name text-babbage-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 22:15:18] Arguments: {'model_name': 'text-babbage-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 22:15:18] start experiment...
+[2023-08-08 22:15:18] language: de
+[2023-08-08 22:15:18] model parameters: 1.3B
+[2023-08-08 22:20:59] accuracy: 0.005141388174807198
+[2023-08-08 22:20:59] ====================
+[2023-08-08 22:21:02] COMMAND: main2.py --model-name text-curie-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 22:21:02] Arguments: {'model_name': 'text-curie-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 22:21:02] start experiment...
+[2023-08-08 22:21:02] language: de
+[2023-08-08 22:21:02] model parameters: 6.7B
+[2023-08-08 22:26:21] accuracy: 0.20051413881748073
+[2023-08-08 22:26:21] ====================
+[2023-08-08 22:26:23] COMMAND: main2.py --model-name text-davinci-001 --log-file capitalize/results/de.txt --lang de
+[2023-08-08 22:26:23] Arguments: {'model_name': 'text-davinci-001', 'log_file': 'capitalize/results/de.txt', 'lang': 'de'}
+[2023-08-08 22:26:23] start experiment...
+[2023-08-08 22:26:23] language: de
+[2023-08-08 22:26:23] model parameters: 175B
+[2023-08-08 22:34:45] accuracy: 0.0038560411311053984
+[2023-08-08 22:34:45] ====================
