@@ -108,8 +108,10 @@ ValidOpenAiModel ={
 }
 class OpenAiTranslator():
 
+
     def __init__(self,model_name,src_lang,tgt_lang,few_shot=False,use_prefix=False) -> None:
         openai.api_key = ""
+
 
         self.model_name = model_name
         self.src_lang = src_lang 
