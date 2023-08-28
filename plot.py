@@ -55,17 +55,22 @@ def plot_openai(metric:str,src_id,tgt_id):
     log = f"results/openai/prefix/thruthfullqa_{src_id}_{tgt_id}.txt"
     stats = extract_stats(log)
     insgpt,gpt3,text_dvnc_2,text_dvnc_3=parse_info(stats)
-
+ 
+# print(insgpt)   
+def plot(metric:str,src_id,tgt_id):
     pp.xticks([10**i for i in range(8,12)])
     pp.xscale("log")
+
     pp.plot("size",metric,data=insgpt,marker="+",color="r",label="instruct gpt") ##
     pp.plot("size",metric,data=gpt3,marker="o",color="b",label="gpt 3") ##
     pp.plot("size",metric,data=text_dvnc_2,marker="x",color="y",label="text-davinci-002") ##
     pp.plot("size",metric,data=text_dvnc_3,marker="v",color="k",label="text-davinci-003") ##
+
     pp.legend()
     pp.xlabel("model size")
     pp.ylabel(metric) ###
     pp.title(f"{id2lang[src_id]}-{id2lang[tgt_id]}:plot of model size vs {metric}") #modify figure path!
+
     pp.savefig(f"figures/openai/prefix/{metric}_{src_id}_{tgt_id}.jpg")  ###
 
 def plot_t5(metric):
@@ -95,7 +100,4 @@ def pearson(info:dict):
 if __name__ == "__main__":
     log_path = "results/openai/prefix/thruthfullqa_en_ru.txt"
     instruct_gpt,gpt3,text_dvnc_2,text_dvnc_3 = parse_info(log_path)
-    accs = instruct_gpt["accuracy"]+gpt3["accuracy"]+text_dvnc_2["accuracy"]+text_dvnc_3["accuracy"]
-    print(sum(accs)/len(accs))
-    
     
