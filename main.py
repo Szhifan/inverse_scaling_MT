@@ -43,7 +43,7 @@ def main(args):
         output = model(sent) 
         f.write(output+"\n")
     f.close()
-    ref_dir = f"truthfullqa/ref_{tgt_id}.txt" #reference file where the gold standard translation is contained. 
+    ref_dir = f"truthfullqa/ref_{tgt_id}.txt" #reference file which contains the golden label. 
     stats = eval(ref_dir,translation_output_dir)
     logging.info(stats)
     logging.info("="*20)
