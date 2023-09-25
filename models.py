@@ -139,11 +139,13 @@ class HFTranslator():
                 for src_example, tgt_example in self.construct_few_shot_examples():
                     if len(prompt) == 0:
                         src_example = sys_msg + src_example
-                    prompt += f"<s>[INST] {src_example.strip()} [/INST] {tgt_example.strip()} </s>"
-                prompt += f"<s>[INST] {src_text.strip()} [/INST]"
+                    else:
+                        prompt += "<s>"
+                    prompt += f"[INST] {src_example.strip()} [/INST] {tgt_example.strip()} </s>"
+                prompt += f"[INST] {src_text.strip()} [/INST]"
             else:
                 msg = f"<<SYS>>\\nTranslate {self.src_lang} to {self.tgt_lang}:\\n<</SYS>>\\n\\n{src_text}"
-                prompt += f"<s>[INST] {msg.strip()} [/INST]"
+                prompt += f"[INST] {msg.strip()} [/INST]"
         else:
             if self.few_shot:
                 prompt = f"Translate {self.src_lang} to {self.tgt_lang}:\n"
