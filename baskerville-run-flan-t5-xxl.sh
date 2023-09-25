@@ -10,28 +10,27 @@
 # Options for sbatch
 # ====================
 
-# The partition specifies the set of nodes you want to run on.
-# See https://cirrus.readthedocs.io/en/main/user-guide/batch.html#specifying-resources-in-job-scripts
-#SBATCH --partition=gpu
-
 # The QoS specifies the limits to apply to your job.
 # See https://cirrus.readthedocs.io/en/main/user-guide/batch.html#specifying-resources-in-job-scripts
-#SBATCH --qos=gpu
+#SBATCH --qos=epsrc
 
 # Generic resources to use - typically you'll want gpu:n to get n gpus
 #SBATCH --gres=gpu:1
 
+# GPU type
+#SBATCH --constraint=a100_80
+
 # Maximum time for the job to run, format: days-hours:minutes:seconds
-#SBATCH --time=00:00:05
+#SBATCH --time=04:00:00
 
 # Location for stdout log - see https://slurm.schedmd.com/sbatch.html#lbAH
-#SBATCH --output=/work/tc046/tc046/%u/slurm_logs/slurm-%A_%a.out
+#SBATCH --output=./slurm-flan-t5-xxl-%A_%a.out
 
 # Location for stderr log - see https://slurm.schedmd.com/sbatch.html#lbAH
-#SBATCH --error=/work/tc046/tc046/%u/slurm_logs/slurm-%A_%a.out
+#SBATCH --error=./slurm-flan-t5-xxl-%A_%a.out
 
-# Replace [budget code] below with your project code (e.g. t01)
-#SBATCH --account=tc046-pool3
+# RAM
+#SBATCH --mem=100G
 
 # =====================
 # Logging information
@@ -44,13 +43,19 @@ dt=$(date '+%d/%m/%Y %H:%M:%S')
 echo "Job started: $dt"
 
 # Load the required modules
-module load pytorch/1.12.1-gpu
+#module load pytorch/1.12.1-gpu
+module purge
+module load baskerville
+module load PyTorch
 echo "modules are loaded"
+
+. ../pytorch_env/bin/activate
+echo "venv activated"
 
 # echo "config_path: $1"
 # echo "output_path: $2"
 
-COMMAND="python test.py"
+COMMAND="./run-flan-t5-xxl.sh"
 echo "Running provided command: ${COMMAND}"
 eval "${COMMAND}"
 echo "Command ran successfully!"

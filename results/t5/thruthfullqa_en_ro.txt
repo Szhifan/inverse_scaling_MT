@@ -25,4 +25,10 @@ bleu score: 50.19|language acc:0.0|question mark acc:0.9877600979192166
 [2023-07-14 00:29:53] start experiment...
 [2023-07-14 00:29:53] language pair: English-Romanian
 [2023-07-14 00:30:42] model parameters: 2851598336
-bleu score: 15.99|language acc:0.0|question mark acc:0.9828850855745721
+bleu score: 15.99|language acc:0.0|question mark acc:0.9828850855745721[2023-09-22 05:36:13] COMMAND: main.py --model-name t5-11b --log-file ./results/t5/thruthfullqa_en_ro.txt --lang-pair en-ro
+[2023-09-22 05:36:13] Arguments: {'model_name': 't5-11b', 'log_file': './results/t5/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro', 'prefix': False}
+[2023-09-22 05:36:13] start experiment...
+[2023-09-22 05:36:13] language pair: English-Romanian
+[2023-09-22 05:38:10] model parameters: 11307321344
+[2023-09-22 05:42:58] bleu score: 49.17|question mark acc:0.9910025706940874
+[2023-09-22 05:42:58] ====================
