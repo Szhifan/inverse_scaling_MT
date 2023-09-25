@@ -1,4 +1,4 @@
-import os
+import os, sys
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 #from utils import get_prefix,get_prefix_capitalize
 from utils import get_prefix
@@ -98,11 +98,11 @@ class HFTranslator():
             full_model_name = prefix+model_name+suffix
             self.is_llama_model = True
             self.is_chat_model = model_name.endswith("-chat")
-            tokenizer = AutoTokenizer.from_pretrained(
+            self.tokenizer = AutoTokenizer.from_pretrained(
                     full_model_name,
                     cache_dir=hf_cache_dir,
                     token=self.hf_token)
-            model = AutoModelForCausalLM.from_pretrained(
+            self.model = AutoModelForCausalLM.from_pretrained(
                     full_model_name,
                     max_length=1024,
                     cache_dir=hf_cache_dir,
@@ -135,17 +135,16 @@ class HFTranslator():
                 examples = self.construct_few_shot_examples()
                 assert (len(examples) > 0)
                 prompt = ""
-                sys_msg = f"<<SYS>>\\nTranslate {self.src_lang} to {self.tgt_lang}:\\n<</SYS>>\\n\\n"
+                sys_msg = f"<<SYS>>\nTranslate {self.src_lang} to {self.tgt_lang}\n<</SYS>>\n\n"
                 for src_example, tgt_example in self.construct_few_shot_examples():
+                    src_example = f"[{self.src_lang}]: " + src_example
                     if len(prompt) == 0:
                         src_example = sys_msg + src_example
-                    else:
-                        prompt += "<s>"
-                    prompt += f"[INST] {src_example.strip()} [/INST] {tgt_example.strip()} </s>"
-                prompt += f"[INST] {src_text.strip()} [/INST]"
+                    prompt += f"[INST] {src_example.strip()} [/INST] [{self.tgt_lang}]: {tgt_example.strip()} </s><s>"
+                prompt += f"[INST] [{self.src_lang}]: {src_text.strip()} [/INST] [{self.tgt_lang}]:"
             else:
-                msg = f"<<SYS>>\\nTranslate {self.src_lang} to {self.tgt_lang}:\\n<</SYS>>\\n\\n{src_text}"
-                prompt += f"[INST] {msg.strip()} [/INST]"
+                msg = f"<<SYS>>\nTranslate {self.src_lang} to {self.tgt_lang}\n<</SYS>>\n\n[{self.src_lang}]: {src_text}"
+                prompt = f"[INST] {msg.strip()} [/INST] [{self.tgt_lang}]:"
         else:
             if self.few_shot:
                 prompt = f"Translate {self.src_lang} to {self.tgt_lang}:\n"
@@ -166,18 +165,30 @@ class HFTranslator():
     def __call__(self,src_text:str):
         if self.use_prefix:
             src_text = get_prefix(lang2id[self.src_lang])+src_text
-        if self.need_prompt:
-            prompt = self.get_llama_prompt(src_text) if self.is_llama_model else self.get_prompt(src_text)
+        if self.is_llama_model:
+            prompt = self.get_llama_prompt(src_text)
+            input_ids = self.tokenizer(prompt,return_tensors="pt")["input_ids"].to(device)
+            outputs = self.model.generate(
+                    input_ids,
+                    max_length=120,
+                    do_sample=True,
+                    temperature=0.5)
+            outputs = outputs[:, input_ids.shape[-1]:]
+            output_str = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
+            output_str = output_str.strip().split("\n")[0].strip().replace('"', '')
+        elif self.need_prompt:
+            prompt = self.get_prompt(src_text)
             input_ids = self.tokenizer(prompt,return_tensors="pt")["input_ids"].to(device)
             outputs = self.model.generate(input_ids,max_length=120)
+            output_str = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
         else:
             input_ids = self.tokenizer(src_text,return_tensors="pt")["input_ids"].to(device)
             if re.search(r"-to-many",self.model_name):
                 outputs = self.model.generate(input_ids,forced_bos_token_id=self.tokenizer.lang_code_to_id[mbart_lang_ids[self.tgt_lang]])
             else:
                 outputs = self.model.generate(input_ids)
-        translation = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
-        return translation[0]
+            output_str = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
+        return output_str
 
 ValidOpenAiModel ={
     "gpt-3.5-turbo":"175B",
@@ -326,9 +337,9 @@ class LlamaTranslator():
         ans = self.extract_ans(response)
         return ans 
          
-def get_model(model_name,src_lang,tgt_lang,few_shot,use_prefix):
+def get_model(model_name,src_lang,tgt_lang,few_shot,use_prefix, quantization=None, hf_token=None):
     if model_name in ValidHFModel:
-        model = HFTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot,use_prefix=use_prefix)
+        model = HFTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot,use_prefix=use_prefix, quantization=quantization, hf_token=hf_token)
     elif model_name in ValidOpenAiModel.keys():
         model = OpenAiTranslator(model_name,src_lang,tgt_lang,few_shot=few_shot,use_prefix=use_prefix)
     else:
