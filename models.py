@@ -106,6 +106,7 @@ class HFTranslator():
                     full_model_name,
                     max_length=1024,
                     cache_dir=hf_cache_dir,
+                    torch_dtype=torch.float16,
                     quantization_config=quantization_config,
                     device_map="auto",
                     token=self.hf_token)

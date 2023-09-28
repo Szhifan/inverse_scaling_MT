@@ -1,0 +1,14 @@
+[2023-09-26 01:49:06] COMMAND: main.py --model-name Llama-2-7b --log-file ./results/Llama-2-quant-None/prefix/thruthfullqa_en_ro.txt --lang-pair en-ro --quantization None --hf-token-file ../hf_token --prefix
+[2023-09-26 01:49:06] Arguments: {'model_name': 'Llama-2-7b', 'log_file': './results/Llama-2-quant-None/prefix/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro', 'prefix': True, 'quantization': 'None', 'hf_token_file': '../hf_token'}
+[2023-09-26 01:49:06] start experiment...
+[2023-09-26 01:49:06] language pair: English-Romanian
+[2023-09-26 01:50:00] model parameters: 6738415616
+[2023-09-26 02:20:56] bleu score: 0.33|question mark acc:0.7005141388174807
+[2023-09-26 02:20:56] ====================
+[2023-09-26 23:44:23] COMMAND: main.py --model-name Llama-2-13b --log-file ./results/Llama-2-quant-None/prefix/thruthfullqa_en_ro.txt --lang-pair en-ro --quantization None --hf-token-file ../hf_token --prefix
+[2023-09-26 23:44:23] Arguments: {'model_name': 'Llama-2-13b', 'log_file': './results/Llama-2-quant-None/prefix/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro', 'prefix': True, 'quantization': 'None', 'hf_token_file': '../hf_token'}
+[2023-09-26 23:44:23] start experiment...
+[2023-09-26 23:44:23] language pair: English-Romanian
+[2023-09-26 23:44:38] model parameters: 13015864320
+[2023-09-27 00:28:20] bleu score: 0.89|question mark acc:0.461439588688946
+[2023-09-27 00:28:20] ====================
