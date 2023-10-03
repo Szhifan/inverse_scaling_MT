@@ -1,0 +1,10 @@
++--------------------------------------------------------------------------+
+| Job on the Baskerville cluster:
+| Starting at Tue Oct  3 16:23:40 2023 for ntrg4112(102375)
+| Identity jobid 510491 jobname baskerville-run-llama-2_to_en.sh
+| Running against project xngs6460-languages and in partition baskerville-a100_40
+| Requested cpu=2,mem=200G,node=1,billing=2,gres/gpu=4 - 6-05:30:00 walltime
+| Assigned to nodes bask-pg0309u12a
+| Command /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT/baskerville-run-llama-2_to_en.sh
+| WorkDir /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT
++--------------------------------------------------------------------------+
