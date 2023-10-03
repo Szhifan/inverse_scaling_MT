@@ -12,3 +12,10 @@
 [2023-09-27 05:03:31] model parameters: 6671979520
 [2023-09-27 05:54:19] bleu score: 0.00|question mark acc:0.5051413881748072
 [2023-09-27 05:54:19] ====================
+[2023-09-29 01:58:45] COMMAND: main.py --model-name Llama-2-70b --log-file ./results/Llama-2-quant-4-bits/prefix/thruthfullqa_en_ro.txt --lang-pair en-ro --quantization 4-bits --hf-token-file ../hf_token --prefix
+[2023-09-29 01:58:45] Arguments: {'model_name': 'Llama-2-70b', 'log_file': './results/Llama-2-quant-4-bits/prefix/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro', 'prefix': True, 'quantization': '4-bits', 'hf_token_file': '../hf_token'}
+[2023-09-29 01:58:45] start experiment...
+[2023-09-29 01:58:45] language pair: English-Romanian
+[2023-09-29 01:59:44] model parameters: 34751127552
+[2023-09-29 03:51:25] bleu score: 1.28|question mark acc:0.45629820051413883
+[2023-09-29 03:51:25] ====================

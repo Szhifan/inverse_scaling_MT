@@ -1,0 +1,16 @@
++--------------------------------------------------------------------------+
+| Job on the Baskerville cluster:
+| Starting at Mon Sep 25 22:53:25 2023 for ntrg4112(102375)
+| Identity jobid 507195 jobname baskerville-run-llama-2.sh
+| Running against project xngs6460-languages and in partition baskerville-a100_80
+| Requested cpu=2,mem=200G,node=1,billing=2,gres/gpu=3 - 2-05:30:00 walltime
+| Assigned to nodes bask-pg0308u27a
+| Command /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT/baskerville-run-llama-2.sh
+| WorkDir /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT
++--------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+| Finished at Thu Sep 28 04:23:27 2023 for ntrg4112(102375) on the Baskerville Cluster
+| Required (00:08.286 cputime, 12594284K memory used) - 2-05:30:02 walltime
+| JobState COMPLETING - Reason TimeLimit
+| Exitcode 0:15
++--------------------------------------------------------------------------+
