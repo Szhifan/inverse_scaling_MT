@@ -17,5 +17,3 @@
 [2023-10-03 13:16:16] start experiment...
 [2023-10-03 13:16:16] language pair: English-French
 [2023-10-03 13:17:14] model parameters: 68976648192
-[2023-10-03 17:29:01] bleu score: 0.00|question mark acc:0.7426735218508997
-[2023-10-03 17:29:01] ====================
