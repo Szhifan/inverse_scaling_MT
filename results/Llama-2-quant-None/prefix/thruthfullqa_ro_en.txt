@@ -17,3 +17,5 @@
 [2023-10-04 12:12:47] start experiment...
 [2023-10-04 12:12:47] language pair: Romanian-English
 [2023-10-04 12:13:45] model parameters: 68976648192
+[2023-10-04 14:13:30] bleu score: 7.15|question mark acc:0.6876606683804627
+[2023-10-04 14:13:30] ====================
