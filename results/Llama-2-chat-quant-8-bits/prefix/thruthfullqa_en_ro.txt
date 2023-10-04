@@ -1,0 +1,21 @@
+[2023-09-29 01:57:24] COMMAND: main.py --model-name Llama-2-7b-chat --log-file ./results/Llama-2-chat-quant-8-bits/prefix/thruthfullqa_en_ro.txt --lang-pair en-ro --quantization 8-bits --hf-token-file ../hf_token --prefix
+[2023-09-29 01:57:24] Arguments: {'model_name': 'Llama-2-7b-chat', 'log_file': './results/Llama-2-chat-quant-8-bits/prefix/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro', 'prefix': True, 'quantization': '8-bits', 'hf_token_file': '../hf_token'}
+[2023-09-29 01:57:24] start experiment...
+[2023-09-29 01:57:24] language pair: English-Romanian
+[2023-09-29 01:57:35] model parameters: 6738415616
+[2023-09-29 02:49:05] bleu score: 0.00|question mark acc:0.455012853470437
+[2023-09-29 02:49:05] ====================
+[2023-09-29 13:41:25] COMMAND: main.py --model-name Llama-2-13b-chat --log-file ./results/Llama-2-chat-quant-8-bits/prefix/thruthfullqa_en_ro.txt --lang-pair en-ro --quantization 8-bits --hf-token-file ../hf_token --prefix
+[2023-09-29 13:41:25] Arguments: {'model_name': 'Llama-2-13b-chat', 'log_file': './results/Llama-2-chat-quant-8-bits/prefix/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro', 'prefix': True, 'quantization': '8-bits', 'hf_token_file': '../hf_token'}
+[2023-09-29 13:41:25] start experiment...
+[2023-09-29 13:41:25] language pair: English-Romanian
+[2023-09-29 13:41:41] model parameters: 13015864320
+[2023-09-29 15:27:38] bleu score: 0.00|question mark acc:0.19151670951156813
+[2023-09-29 15:27:38] ====================
+[2023-09-30 15:32:49] COMMAND: main.py --model-name Llama-2-70b-chat --log-file ./results/Llama-2-chat-quant-8-bits/prefix/thruthfullqa_en_ro.txt --lang-pair en-ro --quantization 8-bits --hf-token-file ../hf_token --prefix
+[2023-09-30 15:32:49] Arguments: {'model_name': 'Llama-2-70b-chat', 'log_file': './results/Llama-2-chat-quant-8-bits/prefix/thruthfullqa_en_ro.txt', 'few_shot': False, 'lang_pair': 'en-ro', 'prefix': True, 'quantization': '8-bits', 'hf_token_file': '../hf_token'}
+[2023-09-30 15:32:49] start experiment...
+[2023-09-30 15:32:49] language pair: English-Romanian
+[2023-09-30 15:33:52] model parameters: 68976648192
+[2023-09-30 18:34:16] bleu score: 0.00|question mark acc:0.604541559554413
+[2023-09-30 18:34:16] ====================
