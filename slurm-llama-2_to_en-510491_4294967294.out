@@ -1,91 +1,0 @@
-Job running on bask-pg0309u12a
-Job started: 03/10/2023 16:23:44
-GCCcore/11.3.0
-zlib/1.2.12-GCCcore-11.3.0
-binutils/2.38-GCCcore-11.3.0
-GCC/11.3.0
-numactl/2.0.14-GCCcore-11.3.0
-XZ/5.2.5-GCCcore-11.3.0
-libxml2/2.9.13-GCCcore-11.3.0
-libpciaccess/0.16-GCCcore-11.3.0
-hwloc/2.7.1-GCCcore-11.3.0
-OpenSSL/1.1
-libevent/2.1.12-GCCcore-11.3.0
-UCX/1.12.1-GCCcore-11.3.0
-libfabric/1.15.1-GCCcore-11.3.0
-PMIx/4.1.2-GCCcore-11.3.0
-UCC/1.0.0-GCCcore-11.3.0
-OpenMPI/4.1.4-GCC-11.3.0
-OpenBLAS/0.3.20-GCC-11.3.0
-FlexiBLAS/3.2.0-GCC-11.3.0
-FFTW/3.3.10-GCC-11.3.0
-gompi/2022a
-FFTW.MPI/3.3.10-gompi-2022a
-ScaLAPACK/2.2.0-gompi-2022a-fb
-foss/2022a
-CUDA/11.7.0
-Ninja/1.10.2-GCCcore-11.3.0
-bzip2/1.0.8-GCCcore-11.3.0
-ncurses/6.3-GCCcore-11.3.0
-libreadline/8.1.2-GCCcore-11.3.0
-ncurses/6.3-GCCcore-11.3.0
-Tcl/8.6.12-GCCcore-11.3.0
-SQLite/3.38.3-GCCcore-11.3.0
-GMP/6.2.1-GCCcore-11.3.0
-libffi/3.4.2-GCCcore-11.3.0
-Python/3.10.4-GCCcore-11.3.0
-protobuf/3.19.4-GCCcore-11.3.0
-protobuf-python/3.19.4-GCCcore-11.3.0
-pybind11/2.9.2-GCCcore-11.3.0
-SciPy-bundle/2022.05-foss-2022a
-libyaml/0.2.5-GCCcore-11.3.0
-PyYAML/6.0-GCCcore-11.3.0
-MPFR/4.1.0-GCCcore-11.3.0
-GMP/6.2.1-GCCcore-11.3.0
-numactl/2.0.14-GCCcore-11.3.0
-NASM/2.15.05-GCCcore-11.3.0
-x264/20220620-GCCcore-11.3.0
-LAME/3.100-GCCcore-11.3.0
-x265/3.5-GCCcore-11.3.0
-expat/2.4.8-GCCcore-11.3.0
-libpng/1.6.37-GCCcore-11.3.0
-Brotli/1.0.9-GCCcore-11.3.0
-freetype/2.12.1-GCCcore-11.3.0
-util-linux/2.38-GCCcore-11.3.0
-fontconfig/2.14.0-GCCcore-11.3.0
-freetype/2.12.1-GCCcore-11.3.0
-xorg-macros/1.19.3-GCCcore-11.3.0
-X11/20220504-GCCcore-11.3.0
-freetype/2.12.1-GCCcore-11.3.0
-fontconfig/2.14.0-GCCcore-11.3.0
-FriBidi/1.0.12-GCCcore-11.3.0
-FFmpeg/4.4.2-GCCcore-11.3.0
-libjpeg-turbo/2.1.3-GCCcore-11.3.0
-jbigkit/2.1-GCCcore-11.3.0
-gzip/1.12-GCCcore-11.3.0
-lz4/1.9.3-GCCcore-11.3.0
-zstd/1.5.2-GCCcore-11.3.0
-libdeflate/1.10-GCCcore-11.3.0
-LibTIFF/4.3.0-GCCcore-11.3.0
-Pillow/9.1.1-GCCcore-11.3.0
-expecttest/0.1.3-GCCcore-11.3.0
-MPC/1.2.1-GCCcore-11.3.0
-gmpy2/2.1.2-GCC-11.3.0
-sympy/1.11.1-foss-2022a
-networkx/2.8.4-foss-2022a
-cuDNN/8.4.1.50-CUDA-11.7.0
-GDRCopy/2.3-GCCcore-11.3.0
-UCX-CUDA/1.12.1-GCCcore-11.3.0-CUDA-11.7.0
-magma/2.6.2-foss-2022a-CUDA-11.7.0
-NCCL/2.12.12-GCCcore-11.3.0-CUDA-11.7.0
-PyTorch/2.0.1-foss-2022a-CUDA-11.7.0
-modules are loaded
-venv activated
-Running provided command: ./run-llama-2_to_en.sh
-[2023-10-03 16:24:50] COMMAND: main.py --model-name Llama-2-7b --log-file ./results/Llama-2-quant-None/thruthfullqa_de_en.txt --lang-pair de-en --quantization None --hf-token-file ../hf_token
-[2023-10-03 16:24:50] Arguments: {'model_name': 'Llama-2-7b', 'log_file': './results/Llama-2-quant-None/thruthfullqa_de_en.txt', 'few_shot': False, 'lang_pair': 'de-en', 'prefix': False, 'quantization': 'None', 'hf_token_file': '../hf_token'}
-[2023-10-03 16:24:50] start experiment...
-[2023-10-03 16:24:50] language pair: German-English
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:17<00:17, 17.38s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:23<00:00, 10.73s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:23<00:00, 11.73s/it]
-[2023-10-03 16:25:29] model parameters: 6738415616
-  0%|          | 0/778 [00:00<?, ?it/s]  0%|          | 1/778 [00:09<2:07:19,  9.83s/it]  0%|          | 2/778 [00:12<1:16:10,  5.89s/it]  0%|          | 3/778 [00:16<59:58,  4.64s/it]    1%|          | 4/778 [00:19<51:31,  3.99s/it]  1%|          | 5/778 [00:20<38:50,  3.01s/it]  1%|          | 6/778 [00:23<38:57,  3.03s/it]  1%|          | 7/778 [00:26<38:15,  2.98s/it]  1%|          | 8/778 [00:28<36:17,  2.83s/it]  1%|          | 9/778 [00:31<36:53,  2.88s/it]  1%|▏         | 10/778 [00:34<37:39,  2.94s/it]  1%|▏         | 11/778 [00:37<37:35,  2.94s/it]  2%|▏         | 12/778 [00:40<37:16,  2.92s/it]  2%|▏         | 13/778 [00:41<29:29,  2.31s/it]  2%|▏         | 14/778 [00:44<31:34,  2.48s/it]  2%|▏         | 15/778 [00:47<32:27,  2.55s/it]  2%|▏         | 16/778 [00:50<33:25,  2.63s/it]  2%|▏         | 17/778 [00:52<33:07,  2.61s/it]  2%|▏         | 18/778 [00:55<34:37,  2.73s/it]  2%|▏         | 19/778 [00:58<35:36,  2.81s/it]  3%|▎         | 20/778 [01:01<36:08,  2.86s/it]  3%|▎         | 21/778 [01:04<36:46,  2.91s/it]  3%|▎         | 22/778 [01:06<34:35,  2.75s/it]  3%|▎         | 23/778 [01:09<35:03,  2.79s/it]  3%|▎         | 24/778 [01:12<32:56,  2.62s/it]
