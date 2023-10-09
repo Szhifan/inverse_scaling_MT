@@ -8,9 +8,3 @@
 | Command /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT/baskerville-run-llama-2_second_part.sh
 | WorkDir /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT
 +--------------------------------------------------------------------------+
-+--------------------------------------------------------------------------+
-| Finished at Wed Oct  4 13:31:30 2023 for ntrg4112(102375) on the Baskerville Cluster
-| Required (00:08.541 cputime, 12591296K memory used) - 5-21:05:57 walltime
-| JobState COMPLETING - Reason None
-| Exitcode 0:15
-+--------------------------------------------------------------------------+
