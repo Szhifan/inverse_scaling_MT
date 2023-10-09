@@ -3,3 +3,19 @@
 [2023-10-04 13:04:41] start experiment...
 [2023-10-04 13:04:41] language pair: English-Russian
 [2023-10-04 13:05:21] model parameters: 6738415616
+[2023-10-04 15:28:30] bleu score: 0.00|question mark acc:0.5955441302485004
+[2023-10-04 15:28:30] ====================
+[2023-10-04 17:39:57] COMMAND: main.py --model-name Llama-2-13b --log-file ./results/Llama-2-quant-8-bits/thruthfullqa_en_ru.txt --lang-pair en-ru --quantization 8-bits --hf-token-file ../hf_token
+[2023-10-04 17:39:57] Arguments: {'model_name': 'Llama-2-13b', 'log_file': './results/Llama-2-quant-8-bits/thruthfullqa_en_ru.txt', 'few_shot': False, 'lang_pair': 'en-ru', 'prefix': False, 'quantization': '8-bits', 'hf_token_file': '../hf_token'}
+[2023-10-04 17:39:57] start experiment...
+[2023-10-04 17:39:57] language pair: English-Russian
+[2023-10-04 17:41:06] model parameters: 13015864320
+[2023-10-04 21:03:46] bleu score: 0.00|question mark acc:0.5616966580976864
+[2023-10-04 21:03:46] ====================
+[2023-10-05 00:14:08] COMMAND: main.py --model-name Llama-2-70b --log-file ./results/Llama-2-quant-8-bits/thruthfullqa_en_ru.txt --lang-pair en-ru --quantization 8-bits --hf-token-file ../hf_token
+[2023-10-05 00:14:08] Arguments: {'model_name': 'Llama-2-70b', 'log_file': './results/Llama-2-quant-8-bits/thruthfullqa_en_ru.txt', 'few_shot': False, 'lang_pair': 'en-ru', 'prefix': False, 'quantization': '8-bits', 'hf_token_file': '../hf_token'}
+[2023-10-05 00:14:08] start experiment...
+[2023-10-05 00:14:08] language pair: English-Russian
+[2023-10-05 00:19:14] model parameters: 68976648192
+[2023-10-05 06:45:17] bleu score: 0.00|question mark acc:0.5642673521850899
+[2023-10-05 06:45:17] ====================
