@@ -17,3 +17,5 @@
 [2023-10-04 16:46:56] start experiment...
 [2023-10-04 16:46:56] language pair: Russian-English
 [2023-10-04 16:47:56] model parameters: 68976648192
+[2023-10-04 19:19:08] bleu score: 17.49|question mark acc:0.6953727506426736
+[2023-10-04 19:19:08] ====================
