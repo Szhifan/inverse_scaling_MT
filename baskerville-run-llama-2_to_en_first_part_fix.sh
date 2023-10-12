@@ -15,7 +15,7 @@
 #SBATCH --qos=epsrc
 
 # Generic resources to use - typically you'll want gpu:n to get n gpus
-#SBATCH --gres=gpu:3
+#SBATCH --gres=gpu:2
 
 # GPU type
 #SBATCH --constraint=a100_80
