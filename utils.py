@@ -4,7 +4,9 @@ import sys
 import math 
 from transformers import pipeline
 import re
-import tqdm 
+import tqdm
+import uuid
+
 id2lang = {"en":"English","ro":"Romanian","fr":"French","de":"German","ru":"Russian","zh":"Chinese"}
 lang2id = {kp[1]:kp[0] for kp in id2lang.items()}
 def init_logging(args):
@@ -27,11 +29,14 @@ def eval(ref_dir,mt_dir) -> str:
 
     return: str
     """
-    os.system("touch ./bleu.txt")
-    os.system(f"perl multi-bleu.perl -lc {ref_dir} < {mt_dir} >> ./bleu.txt")
-    bleu_score = open("bleu.txt","r").read()
+
+    bleu_file_name = "eval-"+uuid.uuid4().hex+".bleu" # unique file name
+    os.system(f"touch ./{bleu_file_name}")
+    os.system(f"perl multi-bleu.perl -lc {ref_dir} < {mt_dir} >> ./{bleu_file_name}")
+    with open(bleu_file_name, "r") as bleu_file_fs:
+        bleu_score = bleu_file_fs.read()
     bleu_score = re.search(r"BLEU = ([0-9]+\.[0-9]+),",bleu_score).group(1)
-    os.system("rm ./bleu.txt")
+    os.remove(bleu_file_name)
     
     stats = f"bleu score: {bleu_score}"
     if re.search("truthfullqa",mt_dir):
