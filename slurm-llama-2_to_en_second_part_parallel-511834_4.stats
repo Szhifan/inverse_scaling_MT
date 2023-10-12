@@ -1,0 +1,17 @@
++--------------------------------------------------------------------------+
+| Job on the Baskerville cluster:
+| Starting at Mon Oct  9 21:06:40 2023 for ntrg4112(102375)
+| Identity jobid 511839 jobname baskerville-run-llama-2_to_en_second_part_parallel.sh
+| Array Identity 511834_4
+| Running against project xngs6460-languages and in partition baskerville-a100_40
+| Requested cpu=2,mem=200G,node=1,billing=2,gres/gpu=4 - 1-00:00:00 walltime
+| Assigned to nodes bask-pg0309u09a
+| Command /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT_alternate/baskerville-run-llama-2_to_en_second_part_parallel.sh
+| WorkDir /bask/projects/x/xngs6460-languages/amiceli/inverse_scaling_MT_alternate
++--------------------------------------------------------------------------+
++--------------------------------------------------------------------------+
+| Finished at Tue Oct 10 04:09:22 2023 for ntrg4112(102375) on the Baskerville Cluster
+| Required (07:01:51 cputime, 12950868K memory used) - 07:02:42 walltime
+| JobState COMPLETING - Reason None
+| Exitcode 0:0
++--------------------------------------------------------------------------+
