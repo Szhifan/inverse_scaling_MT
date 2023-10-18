@@ -21,7 +21,7 @@
 # any type is fine //SBATCH --constraint=a100_40
 
 # Maximum time for the job to run, format: days-hours:minutes:seconds
-#SBATCH --time=1-0:00:0
+#SBATCH --time=2-12:00:0
 
 # Location for stdout log - see https://slurm.schedmd.com/sbatch.html#lbAH
 #SBATCH --output=./slurm-llama-2_all_parallel-%A_%a.out
