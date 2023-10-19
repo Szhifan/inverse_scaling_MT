@@ -42,10 +42,14 @@ def main(args):
     src_dir = f"truthfullqa/ref_{src_id}.txt"
     src_text = open(src_dir,"r").readlines()
     #construct output file 
+    extra_suffix=""
+    if args.model_name.startswith("Llama"):
+        extra_suffix += "-quant-"+args.quantization
+        extra_suffix += "--few-shot" if args.few_shot else ""
     if args.prefix:
-        translation_output_dir = f"truthfullqa/prefix/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
+        translation_output_dir = f"truthfullqa/prefix/{src_id}_{tgt_id}_output/" + args.model_name + extra_suffix + ".txt"
     else:
-        translation_output_dir = f"truthfullqa/noprefix/{src_id}_{tgt_id}_output/" + args.model_name + ".txt"
+        translation_output_dir = f"truthfullqa/noprefix/{src_id}_{tgt_id}_output/" + args.model_name + extra_suffix + ".txt"
     os.makedirs(os.path.dirname(translation_output_dir),exist_ok=True)
     f = open(translation_output_dir,"a")
     for sent in tqdm.tqdm(src_text):

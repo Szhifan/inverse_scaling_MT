@@ -1,21 +1,21 @@
-[2023-10-09 21:40:16] COMMAND: main.py --model-name Llama-2-7b --log-file ./results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt --lang-pair de-en --few-shot --quantization 4-bits --hf-token-file ../hf_token --prefix
-[2023-10-09 21:40:16] Arguments: {'model_name': 'Llama-2-7b', 'log_file': './results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en', 'prefix': True, 'quantization': '4-bits', 'hf_token_file': '../hf_token'}
-[2023-10-09 21:40:16] start experiment...
-[2023-10-09 21:40:16] language pair: German-English
-[2023-10-09 21:40:31] model parameters: 3500412928
-[2023-10-09 22:06:31] bleu score: 0.00|question mark acc:0.6431876606683805
-[2023-10-09 22:06:31] ====================
-[2023-10-09 22:47:12] COMMAND: main.py --model-name Llama-2-13b --log-file ./results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt --lang-pair de-en --few-shot --quantization 4-bits --hf-token-file ../hf_token --prefix
-[2023-10-09 22:47:12] Arguments: {'model_name': 'Llama-2-13b', 'log_file': './results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en', 'prefix': True, 'quantization': '4-bits', 'hf_token_file': '../hf_token'}
-[2023-10-09 22:47:12] start experiment...
-[2023-10-09 22:47:12] language pair: German-English
-[2023-10-09 22:47:32] model parameters: 6671979520
-[2023-10-09 23:20:03] bleu score: 0.00|question mark acc:0.8290488431876607
-[2023-10-09 23:20:03] ====================
-[2023-10-10 00:49:42] COMMAND: main.py --model-name Llama-2-70b --log-file ./results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt --lang-pair de-en --few-shot --quantization 4-bits --hf-token-file ../hf_token --prefix
-[2023-10-10 00:49:42] Arguments: {'model_name': 'Llama-2-70b', 'log_file': './results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en', 'prefix': True, 'quantization': '4-bits', 'hf_token_file': '../hf_token'}
-[2023-10-10 00:49:42] start experiment...
-[2023-10-10 00:49:42] language pair: German-English
-[2023-10-10 00:50:46] model parameters: 34751127552
-[2023-10-10 02:00:16] bleu score: 0.00|question mark acc:0.7451799485861182
-[2023-10-10 02:00:16] ====================
+[2023-10-13 04:36:53] COMMAND: main.py --model-name Llama-2-7b --log-file ./results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt --lang-pair de-en --few-shot --quantization 4-bits --hf-token-file ../hf_token --prefix
+[2023-10-13 04:36:53] Arguments: {'model_name': 'Llama-2-7b', 'log_file': './results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en', 'prefix': True, 'quantization': '4-bits', 'hf_token_file': '../hf_token'}
+[2023-10-13 04:36:53] start experiment...
+[2023-10-13 04:36:53] language pair: German-English
+[2023-10-13 04:37:09] model parameters: 3500412928
+[2023-10-13 05:02:50] bleu score: 29.04|question mark acc:0.9395886889460154
+[2023-10-13 05:02:50] ====================
+[2023-10-13 06:46:31] COMMAND: main.py --model-name Llama-2-13b --log-file ./results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt --lang-pair de-en --few-shot --quantization 4-bits --hf-token-file ../hf_token --prefix
+[2023-10-13 06:46:31] Arguments: {'model_name': 'Llama-2-13b', 'log_file': './results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en', 'prefix': True, 'quantization': '4-bits', 'hf_token_file': '../hf_token'}
+[2023-10-13 06:46:31] start experiment...
+[2023-10-13 06:46:31] language pair: German-English
+[2023-10-13 06:46:52] model parameters: 6671979520
+[2023-10-13 07:18:37] bleu score: 29.39|question mark acc:0.7994858611825193
+[2023-10-13 07:18:37] ====================
+[2023-10-13 10:07:59] COMMAND: main.py --model-name Llama-2-70b --log-file ./results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt --lang-pair de-en --few-shot --quantization 4-bits --hf-token-file ../hf_token --prefix
+[2023-10-13 10:07:59] Arguments: {'model_name': 'Llama-2-70b', 'log_file': './results/Llama-2--few-shot-quant-4-bits/prefix/thruthfullqa_de_en.txt', 'few_shot': True, 'lang_pair': 'de-en', 'prefix': True, 'quantization': '4-bits', 'hf_token_file': '../hf_token'}
+[2023-10-13 10:07:59] start experiment...
+[2023-10-13 10:07:59] language pair: German-English
+[2023-10-13 10:09:05] model parameters: 34751127552
+[2023-10-13 11:18:24] bleu score: 31.54|question mark acc:0.9691516709511568
+[2023-10-13 11:18:24] ====================
