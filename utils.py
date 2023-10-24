@@ -1,8 +1,7 @@
 import logging 
 import os
 import sys 
-import math 
-from transformers import pipeline
+
 import re
 import tqdm
 import uuid
@@ -64,11 +63,12 @@ def extract_stats(path:str):
     """
     file = open(path,"r").read()
 
-    stats = []
+    stats = {"model_name":[],"size":[],"bleu":[],"accuracy":[]}
     ex_items = re.split("====================",file)
     for ex in ex_items[:-1]:
-        item = {}
-        item["model_name"] = re.search(r"--model-name\s(.+?)\s",ex).group(1)
+        
+        model_name = re.search(r"--model-name\s(.+?)\s",ex).group(1)
+
         size = re.search(r"model parameters:\s(.+?)\n",ex).group(1)
         if re.search(r"([0-9]+)([BM])",size): #if 
 
@@ -79,11 +79,12 @@ def extract_stats(path:str):
         else:
             size = float(size)
 
-        item["size"] = size
+        stats["model_name"].append(model_name) 
+        stats["size"].append(size)
 
-        item["bleu"] = float(re.search(r"bleu score:\s([0-9]+\.[0-9]+)",ex).group(1))
-        item["accuracy"] = round(float(re.search(r"question mark acc:([0-9]+\.[0-9]+)",ex).group(1)),4) 
-        stats.append(item)   
+        stats["bleu"].append(float(re.search(r"bleu score:\s([0-9]+\.[0-9]+)",ex).group(1)))
+        stats["accuracy"].append(round(float(re.search(r"question mark acc:([0-9]+\.[0-9]+)",ex).group(1)),4))   
+
     return stats
 
 def get_prefix(src_id):
@@ -102,5 +103,6 @@ def get_prefix(src_id):
 
 
 if __name__ == "__main__":
+
 
     print(extract_stats("results/openai/truthfullqa_de_en.txt"))
