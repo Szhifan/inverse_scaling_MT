@@ -1,3 +1,6 @@
 notes
 openaikey.txt
-
+results/alt-*
+__pycache__
+slurm-llama-2_en-ru-510485_4294967294.out
+test.py

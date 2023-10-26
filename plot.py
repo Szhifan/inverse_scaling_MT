@@ -55,10 +55,7 @@ def plot_openai(metric:str,src_id,tgt_id):
     log = f"results/openai/prefix/thruthfullqa_{src_id}_{tgt_id}.txt"
     stats = extract_stats(log)
     insgpt,gpt3,text_dvnc_2,text_dvnc_3=parse_info(stats)
- 
-# print(insgpt)   
-def plot(metric:str,src_id,tgt_id):
-    pp.xticks([10**i for i in range(8,12)])
+
     pp.xscale("log")
 
     pp.plot("size",metric,data=insgpt,marker="+",color="r",label="instruct gpt") ##
@@ -80,7 +77,9 @@ def plot_t5(metric):
     ro = parse_info_t5(extract_stats(log_dir + "ro.txt"))
 
 
-    pp.xticks([10**i for i in range(7,11)])
+
+    pp.xticks([10**i for i in range(9,11)])
+
     pp.xscale("log")
     pp.plot("size",metric,data=de,marker="+",color="r",label="German")
     pp.plot("size",metric,data=fr,marker="o",color="b",label="French")
@@ -97,7 +96,47 @@ def pearson(info:dict):
     size = np.array(info["size"]) / 1000000 
     if len(acc)>=2:
         return pearsonr(size,acc)
+
+
+
+def plot_llama(src_id:str,tgt_id:str,prefix=False,chat=False,metric="accuracy"):
+    prefix = "prefix/" if prefix else ""
+    chat = "-chat" if chat else ""
+    # results/Llama-2-quant-8-bits
+    # results/Llama-2-chat--few-shot-quant-4-bits
+    bit_4_stats = extract_stats(f"results/Llama-2{chat}-quant-4-bits/{prefix}thruthfullqa_{src_id}_{tgt_id}.txt")
+    bit_8_stats = extract_stats(f"results/Llama-2{chat}-quant-8-bits/{prefix}thruthfullqa_{src_id}_{tgt_id}.txt")
+    bit_16_stats = extract_stats(f"results/Llama-2{chat}-quant-None/{prefix}thruthfullqa_{src_id}_{tgt_id}.txt")
+
+
+    bit_4_stats_fs = extract_stats(f"results/Llama-2{chat}-few-shot-quant-4-bits/{prefix}thruthfullqa_{src_id}_{tgt_id}.txt")
+    bit_8_stats_fs = extract_stats(f"results/Llama-2{chat}-few-shot-quant-8-bits/{prefix}thruthfullqa_{src_id}_{tgt_id}.txt")
+    bit_16_stats_fs = extract_stats(f"results/Llama-2{chat}-few-shot-quant-None/{prefix}thruthfullqa_{src_id}_{tgt_id}.txt")
+  
+    #plot 
+
+    pp.plot("size",metric,data=bit_4_stats,marker="^",color="r",label="4_bit")
+    pp.plot("size",metric,data=bit_8_stats,marker="^",color="b",label="8_bit")
+    pp.plot("size",metric,data=bit_16_stats,marker="^",color="g",label="No quant")
+
+
+    pp.plot("size",metric,data=bit_4_stats_fs,marker="^",linestyle="dashed",color="r",label="4_bit few shot")
+    pp.plot("size",metric,data=bit_8_stats_fs,marker="^",color="b",linestyle="dashed",label="8_bit few shot")
+    pp.plot("size",metric,data=bit_16_stats_fs,marker="^",color="g",linestyle="dashed",label="No quant few shot")
+
+    pp.legend()
+    pp.title(f"{id2lang[src_id]}-{id2lang[tgt_id]}:plot of model size vs {metric}")
+    pp.xlabel("model size")
+    pp.ylabel(metric)
+    save_dir = f"figures/llama2-chat/{prefix}/"
+    os.makedirs(save_dir,exist_ok=True)
+    pp.savefig(save_dir + f"{metric}_{src_id}_{tgt_id}.jpg")
+
 if __name__ == "__main__":
-    log_path = "results/openai/prefix/thruthfullqa_en_ru.txt"
-    instruct_gpt,gpt3,text_dvnc_2,text_dvnc_3 = parse_info(log_path)
+ 
+    plot_llama("en","ru",prefix=True,chat=True,metric="bleu")
     
+
+
+
+

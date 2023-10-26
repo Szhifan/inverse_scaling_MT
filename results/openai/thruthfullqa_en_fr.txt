@@ -68,3 +68,16 @@
 [2023-07-20 11:58:16] model parameters: 175B
 [2023-07-20 12:18:57] bleu score: 37.69|language acc:0.0|question mark acc:0.8886168910648715
 [2023-07-20 12:18:57] ====================
+[2023-09-22 00:04:40] COMMAND: main.py --model-name t5-11b --log-file ./results/openai/thruthfullqa_en_fr.txt --lang-pair en-fr --few-shot
+[2023-09-22 00:04:40] Arguments: {'model_name': 't5-11b', 'log_file': './results/openai/thruthfullqa_en_fr.txt', 'few_shot': True, 'lang_pair': 'en-fr', 'prefix': False}
+[2023-09-22 00:04:40] start experiment...
+[2023-09-22 00:04:40] language pair: English-French
+[2023-09-22 00:07:38] COMMAND: main.py --model-name t5-11b --log-file ./results/openai/thruthfullqa_en_fr.txt --lang-pair en-fr --few-shot
+[2023-09-22 00:07:38] Arguments: {'model_name': 't5-11b', 'log_file': './results/openai/thruthfullqa_en_fr.txt', 'few_shot': True, 'lang_pair': 'en-fr', 'prefix': False}
+[2023-09-22 00:07:38] start experiment...
+[2023-09-22 00:07:38] language pair: English-French
+[2023-09-22 00:31:58] model parameters: 11307321344
+[2023-09-22 00:40:46] COMMAND: main.py --model-name t5-11b --log-file ./results/openai/thruthfullqa_en_fr.txt --lang-pair en-fr --few-shot
+[2023-09-22 00:40:46] Arguments: {'model_name': 't5-11b', 'log_file': './results/openai/thruthfullqa_en_fr.txt', 'few_shot': True, 'lang_pair': 'en-fr', 'prefix': False}
+[2023-09-22 00:40:46] start experiment...
+[2023-09-22 00:40:46] language pair: English-French
